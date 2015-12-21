@@ -12,9 +12,13 @@ namespace Jal.RestClient.Installer
 
         private readonly string _authenticatorName;
 
-        public RestClientInstaller(string restClientName, string authenticatorName = null)
+        private readonly bool _default;
+
+        public RestClientInstaller(string restClientName, bool @default = false, string authenticatorName = null)
         {
             _restClientName = restClientName;
+
+            _default = @default;
 
             _authenticatorName = authenticatorName;
         }
@@ -23,12 +27,30 @@ namespace Jal.RestClient.Installer
         {
             if (!string.IsNullOrWhiteSpace(_authenticatorName))
             {
-                container.Register(Component.For<IRestHandler>().ImplementedBy<RestHandler>().Named(_restClientName).DependsOn(ServiceOverride.ForKey<IAuthenticator>().Eq(_authenticatorName)));   
+                if (_default)
+                {
+                    container.Register(Component.For<IRestHandler>().ImplementedBy<RestHandler>().Named(_restClientName).DependsOn(ServiceOverride.ForKey<IAuthenticator>().Eq(_authenticatorName)).IsDefault());   
+                }
+                else
+                {
+                    container.Register(Component.For<IRestHandler>().ImplementedBy<RestHandler>().Named(_restClientName).DependsOn(ServiceOverride.ForKey<IAuthenticator>().Eq(_authenticatorName)));   
+                }
+                
             }
             else
             {
-                container.Register(Component.For<IRestHandler>().ImplementedBy<RestHandler>().Named(_restClientName)); 
+                if (_default)
+                {
+                    container.Register(Component.For<IRestHandler>().ImplementedBy<RestHandler>().Named(_restClientName).IsDefault()); 
+                }
+                else
+                {
+                    container.Register(Component.For<IRestHandler>().ImplementedBy<RestHandler>().Named(_restClientName)); 
+                }
+                
             }
+
+
         }
     }
 }
