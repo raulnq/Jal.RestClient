@@ -3,11 +3,18 @@ using Jal.RestClient.Model;
 
 namespace Jal.RestClient.Impl
 {
-    public class BearerAuthenticator : IAuthenticator
+    public class TokenAuthenticator : IAuthenticator
     {
+        private readonly string _tokenName;
+
+        public TokenAuthenticator(string tokenName)
+        {
+            _tokenName = tokenName;
+        }
+
         public void Authenticate(RestRequest restRequest)
         {
-            restRequest.HttpRequest.AddHeader("Authorization", string.Format("{0} {1}", restRequest.RestAuthenticationInfo.TokenName, restRequest.RestAuthenticationInfo.Token));
+            restRequest.HttpRequest.AddHeader("Authorization", string.Format("{0} {1}", _tokenName, restRequest.RestAuthenticationInfo.Token));
         }
     }
 }

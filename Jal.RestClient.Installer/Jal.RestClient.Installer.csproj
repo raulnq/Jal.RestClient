@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TokenAutenticatorInstaller.cs" />
     <Compile Include="RestClientInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
