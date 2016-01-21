@@ -38,7 +38,7 @@ Create your converter class
     {
         public override Customer[] Convert(string source)
         {
-            return new []{new Customer()};
+            return new []{new Customer()};//TODO: parse the string to the object
         }
     }
     
