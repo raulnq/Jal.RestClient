@@ -1,13 +1,14 @@
 ﻿using System.Net;
 using Jal.Converter.Interface;
 using Jal.HttpClient.Interface;
+using Jal.HttpClient.Model;
 using Jal.RestClient.Interface;
 using Jal.RestClient.Model;
 using HttpRequest = Jal.HttpClient.Model.HttpRequest;
 
 namespace Jal.RestClient.Impl
 {
-    public class RestHandler : IRestHandler
+    public partial class RestHandler : IRestHandler
     {
         readonly IHttpHandler _httpHandler;
 
@@ -24,126 +25,71 @@ namespace Jal.RestClient.Impl
             Authenticator = NullAuthenticator.Instance;
         }
 
-        public RestResponse<TResponse> Execute<TRequest, TResponse>(HttpRequest httpRequest, TRequest request=null, RestAuthenticationInfo restAuthenticationInfo = null) where TResponse : class, new() where TRequest : class, new()
+        public RestResponse Send(string url, HttpMethod httpMethod, RestAuthenticationInfo restAuthenticationInfo = null, HttpContentType httpContentType = HttpContentType.Form, string body = null)
         {
-            var content = _modelConverter.Convert<TRequest, string>(request);
+            var request = new HttpRequest(url, httpMethod, httpContentType);
 
-            if (httpRequest != null)
+            Authenticate(request, restAuthenticationInfo);
+
+            request.Body = body;
+
+            var response = _httpHandler.Send(request);
+
+            return new RestResponse
             {
-                httpRequest.Body = content;
+                HttpResponse = response
+            };
+        }
 
-                var restRequest = new RestRequest(httpRequest, restAuthenticationInfo);
+        public RestResponse<TResponse> Get<TResponse>(string url, RestAuthenticationInfo restAuthenticationInfo = null)
+        {
+            var request = new HttpRequest(url, HttpMethod.Get, HttpContentType.Form);
 
-                return Execute<TResponse>(restRequest);
+            Authenticate(request, restAuthenticationInfo);
+
+            var response = _httpHandler.Send(request);
+
+            if (response != null && response.HttpStatusCode == HttpStatusCode.OK)
+            {
+                return new RestResponse<TResponse>
+                {
+                    HttpResponse = response,
+                    Result = _modelConverter.Convert<string, TResponse>(response.Content)
+                };
             }
             else
             {
                 return new RestResponse<TResponse>
                 {
-                    ErrorMessage = string.Format("Problems at the moment to create the request to {0}", httpRequest.Url),
-                    Succeeded = false
+                    HttpResponse = response
                 };
             }
         }
 
-        public RestResponse<TResponse> Execute<TResponse>(RestRequest request) where TResponse : class, new()
+        public RestResponse Post<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null)
         {
-            Authenticator.Authenticate(request);
+            var body = _modelConverter.Convert<TContent, string>(content);
 
-            var response = _httpHandler.Send(request.HttpRequest);
-
-            if (response.HttpStatusCode == HttpStatusCode.OK && response.WebExceptionStatus == WebExceptionStatus.Success)
-            {
-                if (!string.IsNullOrWhiteSpace(response.Content))
-                {
-                    var restResponse = new RestResponse<TResponse>();
-
-                    var result = _modelConverter.Convert<string, TResponse>(response.Content);
-
-                    if (result != null)
-                    {
-                        restResponse.HttpResponse = response;
-
-                        restResponse.Result = result;
-
-                        return restResponse;
-                    }
-                    else
-                    {
-                        return new RestResponse<TResponse>
-                        {
-                            HttpResponse = response,
-                            ErrorMessage = string.Format("Problems at the moment to create the response to {0}", request.HttpRequest.Url),
-                            Succeeded = false
-                        };
-                    }
-                }
-                else
-                {
-                    return new RestResponse<TResponse>
-                    {
-                        HttpResponse = response,
-                        ErrorMessage = string.Format("The response to {0} is empty", request.HttpRequest.Url),
-                        Succeeded = false
-                    };
-                }
-            }
-            else
-            {
-                return new RestResponse<TResponse>
-                {
-                    HttpResponse = response,
-                    ErrorMessage = string.Format("{0}-{1}", response.ErrorMessage, response.Content),
-                    Succeeded = false
-                };
-            }
+            return Send(url, HttpMethod.Post, restAuthenticationInfo, httpContentType, body);
         }
 
-        public RestResponse Execute<TRequest>(HttpRequest httpRequest, TRequest request, RestAuthenticationInfo restAuthenticationInfo = null) where TRequest : class, new()
+        public RestResponse Put<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null)
         {
-            var content = _modelConverter.Convert<TRequest, string>(request);
+            var body = _modelConverter.Convert<TContent, string>(content);
 
-            if (httpRequest != null)
-            {
-                httpRequest.Body = content;
-
-                var restRequest = new RestRequest(httpRequest, restAuthenticationInfo);
-
-                return Execute(restRequest);
-            }
-            else
-            {
-                return new RestResponse
-                {
-                    ErrorMessage = string.Format("Problems at the moment to create the request to {0}", httpRequest.Url),
-                    Succeeded = false
-                };
-            }
+            return Send(url, HttpMethod.Put, restAuthenticationInfo, httpContentType, body);
         }
 
-        public RestResponse Execute(RestRequest request)
+        public RestResponse Delete(string url, RestAuthenticationInfo restAuthenticationInfo = null)
         {
+            return Send(url, HttpMethod.Delete, restAuthenticationInfo);
+        }
 
-            Authenticator.Authenticate(request);
-
-            var response = _httpHandler.Send(request.HttpRequest);
-
-            if (response.HttpStatusCode == HttpStatusCode.OK && response.WebExceptionStatus == WebExceptionStatus.Success)
+        private void Authenticate(HttpRequest request, RestAuthenticationInfo restAuthenticationInfo)
+        {
+            if (restAuthenticationInfo != null)
             {
-                return new RestResponse
-                {
-                    HttpResponse = response,
-                    Succeeded = true
-                };
-            }
-            else
-            {
-                return new RestResponse
-                {
-                    ErrorMessage = string.Format("{0}-{1}", response.ErrorMessage, response.Content),
-                    Succeeded = false,
-                    HttpResponse = response,
-                };
+                Authenticator.Authenticate(request, restAuthenticationInfo);
             }
         }
     }

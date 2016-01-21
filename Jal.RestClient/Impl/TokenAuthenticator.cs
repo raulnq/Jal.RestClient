@@ -1,4 +1,5 @@
-﻿using Jal.RestClient.Interface;
+﻿using Jal.HttpClient.Model;
+using Jal.RestClient.Interface;
 using Jal.RestClient.Model;
 
 namespace Jal.RestClient.Impl
@@ -12,9 +13,9 @@ namespace Jal.RestClient.Impl
             _tokenName = tokenName;
         }
 
-        public void Authenticate(RestRequest restRequest)
+        public void Authenticate(HttpRequest httpRequest, RestAuthenticationInfo restAuthenticationInfo)
         {
-            restRequest.HttpRequest.AddHeader("Authorization", string.Format("{0} {1}", _tokenName, restRequest.RestAuthenticationInfo.Token));
+            httpRequest.AddHeader("Authorization", string.Format("{0} {1}", _tokenName, restAuthenticationInfo.Token));
         }
     }
 }

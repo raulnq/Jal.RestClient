@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D34C78BA-8E63-4DC2-B4A2-DF52AB081F49}</ProjectGuid>
+    <ProjectGuid>{AE7BA0AC-3396-4C72-A212-6F57AD563333}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Jal.RestClient</RootNamespace>
-    <AssemblyName>Jal.RestClient</AssemblyName>
+    <RootNamespace>Jal.RestClient.Tests</RootNamespace>
+    <AssemblyName>Jal.RestClient.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,6 +25,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,21 +34,45 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.3.0\lib\net45\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Windsor">
+      <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+    </Reference>
+    <Reference Include="Jal.AssemblyFinder">
+      <HintPath>..\packages\Jal.AssemblyFinder.1.1.0.0\lib\net40\Jal.AssemblyFinder.dll</HintPath>
+    </Reference>
     <Reference Include="Jal.Converter, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Jal.Converter.1.1.1.0\lib\net40\Jal.Converter.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.HttpClient, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Jal.Converter.Installer">
+      <HintPath>..\packages\Jal.Converter.Installer.1.1.1.0\lib\net40\Jal.Converter.Installer.dll</HintPath>
+    </Reference>
+    <Reference Include="Jal.HttpClient">
       <HintPath>..\packages\Jal.HttpClient.1.1.0.0\lib\net45\Jal.HttpClient.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.Locator">
+    <Reference Include="Jal.HttpClient.Installer">
+      <HintPath>..\packages\Jal.HttpClient.Installer.1.1.0.0\lib\net45\Jal.HttpClient.Installer.dll</HintPath>
+    </Reference>
+    <Reference Include="Jal.Locator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Jal.Locator.1.0.0.0\lib\net40\Jal.Locator.dll</HintPath>
+    </Reference>
+    <Reference Include="Jal.Locator.CastleWindsor">
+      <HintPath>..\packages\Jal.Locator.CastleWindsor.1.0.0.0\lib\net40\Jal.Locator.CastleWindsor.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Shouldly">
+      <HintPath>..\packages\Shouldly.2.6.0\lib\net40\Shouldly.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,19 +83,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Impl\NullAuthenticator.cs" />
-    <Compile Include="Impl\RestHandlerAsync.cs" />
-    <Compile Include="Impl\RestHandler.cs" />
-    <Compile Include="Impl\TokenAuthenticator.cs" />
-    <Compile Include="Interface\IAuthenticator.cs" />
-    <Compile Include="Interface\IRestHandler.cs" />
-    <Compile Include="Interface\IRestHandlerAsync.cs" />
-    <Compile Include="Model\RestAuthenticationInfo.cs" />
-    <Compile Include="Model\RestResponse.cs" />
+    <Compile Include="Customer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CustomerToStringConverter.cs" />
+    <Compile Include="StringToCustomerConverter.cs" />
+    <Compile Include="StringToCustomersConverter.cs" />
+    <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jal.RestClient.Installer\Jal.RestClient.Installer.csproj">
+      <Project>{FD83BEB1-0C1D-4599-9C58-70726911FF90}</Project>
+      <Name>Jal.RestClient.Installer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jal.RestClient\Jal.RestClient.csproj">
+      <Project>{D34C78BA-8E63-4DC2-B4A2-DF52AB081F49}</Project>
+      <Name>Jal.RestClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
