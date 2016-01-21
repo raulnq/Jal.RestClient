@@ -66,6 +66,11 @@ namespace Jal.RestClient.Impl
             }
         }
 
+        public RestResponse Get(string url, RestAuthenticationInfo restAuthenticationInfo = null)
+        {
+            return Send(url, HttpMethod.Get, restAuthenticationInfo);
+        }
+
         public RestResponse Post<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null)
         {
             var body = _modelConverter.Convert<TContent, string>(content);

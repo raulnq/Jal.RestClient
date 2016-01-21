@@ -49,6 +49,11 @@ namespace Jal.RestClient.Impl
             }
         }
 
+        public Task<RestResponse> GetAsync(string url, RestAuthenticationInfo restAuthenticationInfo = null)
+        {
+            return SendAsync(url, HttpMethod.Get, restAuthenticationInfo);
+        }
+
         public Task<RestResponse> PostAsync<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null)
         {
             var body = _modelConverter.Convert<TContent, string>(content);

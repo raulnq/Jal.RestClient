@@ -10,6 +10,8 @@ namespace Jal.RestClient.Interface
     {
         RestResponse<TResponse> Get<TResponse>(string url, RestAuthenticationInfo restAuthenticationInfo = null);
 
+        RestResponse Get(string url, RestAuthenticationInfo restAuthenticationInfo = null);
+
         RestResponse Post<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null);
 
         RestResponse Put<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null);

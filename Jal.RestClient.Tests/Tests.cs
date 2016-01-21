@@ -60,6 +60,26 @@ namespace Jal.RestClient.Tests
         }
 
         [Test]
+        public void GetSimple_Item_Successful()
+        {
+            AssemblyFinder.Impl.AssemblyFinder.Current = new AssemblyFinder.Impl.AssemblyFinder(TestContext.CurrentContext.TestDirectory);
+
+            var container = new WindsorContainer();
+
+            container.Install(new ServiceLocatorInstaller());
+
+            container.Install(new HttpClientInstaller());
+
+            container.Install(new ConverterInstaller());
+
+            container.Install(new RestClientInstaller("Example", true));
+
+            var restHandler = container.Resolve<IRestHandler>();
+
+            var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/");
+        }
+
+        [Test]
         public void Post_Item_Successful()
         {
             AssemblyFinder.Impl.AssemblyFinder.Current = new AssemblyFinder.Impl.AssemblyFinder(TestContext.CurrentContext.TestDirectory);

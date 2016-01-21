@@ -8,6 +8,8 @@ namespace Jal.RestClient.Interface
     {
         Task<RestResponse<TResponse>> GetAsync<TResponse>(string url, RestAuthenticationInfo restAuthenticationInfo = null);
 
+        Task<RestResponse> GetAsync(string url, RestAuthenticationInfo restAuthenticationInfo = null);
+
         Task<RestResponse> PostAsync<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null);
 
         Task<RestResponse> PutAsync<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null);
