@@ -26,7 +26,7 @@ Install the Jal.HttpClient library
     
 Install the Jal.RestClient library
 
-    container.Install(new RestClientInstaller("Example, true"));
+    container.Install(new RestClientInstaller());
     
 Resolve an instance of the IRestHandler class
 
