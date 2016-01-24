@@ -53,14 +53,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Impl\NullAuthenticator.cs" />
+    <Compile Include="Impl\BasicHttpAuthenticator.cs" />
     <Compile Include="Impl\RestHandlerAsync.cs" />
     <Compile Include="Impl\RestHandler.cs" />
-    <Compile Include="Impl\TokenAuthenticator.cs" />
+    <Compile Include="Impl\BearerTokenAuthenticator.cs" />
     <Compile Include="Interface\IAuthenticator.cs" />
     <Compile Include="Interface\IRestHandler.cs" />
     <Compile Include="Interface\IRestHandlerAsync.cs" />
-    <Compile Include="Model\RestAuthenticationInfo.cs" />
     <Compile Include="Model\RestResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

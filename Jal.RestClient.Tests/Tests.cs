@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Castle.Windsor;
@@ -32,11 +33,13 @@ namespace Jal.RestClient.Tests
 
             container.Install(new ConverterInstaller());
 
-            container.Install(new RestClientInstaller("Example", true));
+            container.Install(new RestClientInstaller());
 
             var restHandler = container.Resolve<IRestHandler>();
 
-            var response = restHandler.Get<Customer[]>("http://www.thomas-bayer.com/sqlrest/CUSTOMER/");
+            var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/");
+
+            var res = restHandler.To<Customer[]>(response, new []{ HttpStatusCode.OK});
         }
 
         [Test]
@@ -52,11 +55,13 @@ namespace Jal.RestClient.Tests
 
             container.Install(new ConverterInstaller());
 
-            container.Install(new RestClientInstaller("Example", true));
+            container.Install(new RestClientInstaller());
 
             var restHandler = container.Resolve<IRestHandler>();
 
-            var response = restHandler.Get<Customer>("http://www.thomas-bayer.com/sqlrest/CUSTOMER/2");
+            var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/2");
+
+            var res = restHandler.To<Customer>(response, new[] { HttpStatusCode.OK });
         }
 
         [Test]
@@ -72,7 +77,7 @@ namespace Jal.RestClient.Tests
 
             container.Install(new ConverterInstaller());
 
-            container.Install(new RestClientInstaller("Example", true));
+            container.Install(new RestClientInstaller());
 
             var restHandler = container.Resolve<IRestHandler>();
 
@@ -92,7 +97,7 @@ namespace Jal.RestClient.Tests
 
             container.Install(new ConverterInstaller());
 
-            container.Install(new RestClientInstaller("Example", true));
+            container.Install(new RestClientInstaller());
 
             var restHandler = container.Resolve<IRestHandler>();
 

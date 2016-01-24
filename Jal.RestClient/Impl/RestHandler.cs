@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using Jal.Converter.Interface;
 using Jal.HttpClient.Interface;
 using Jal.HttpClient.Model;
@@ -14,22 +15,37 @@ namespace Jal.RestClient.Impl
 
         readonly IModelConverter _modelConverter;
 
-        public IAuthenticator Authenticator { get; set; }
-
         public RestHandler(IHttpHandler httpHandler, IModelConverter modelConverter)
         {
             _httpHandler = httpHandler;
 
             _modelConverter = modelConverter;
-
-            Authenticator = NullAuthenticator.Instance;
         }
 
-        public RestResponse Send(string url, HttpMethod httpMethod, RestAuthenticationInfo restAuthenticationInfo = null, HttpContentType httpContentType = HttpContentType.Form, string body = null)
+        public RestResponse<TResponse> To<TResponse>(RestResponse response, HttpStatusCode[] httpStatusCodes)
+        {
+            if (response != null && response.HttpResponse != null && httpStatusCodes.Contains(response.HttpResponse.HttpStatusCode))
+            {
+                return new RestResponse<TResponse>
+                {
+                    HttpResponse = response.HttpResponse,
+                    Result = _modelConverter.Convert<string, TResponse>(response.HttpResponse.Content)
+                };
+            }
+            else
+            {
+                return new RestResponse<TResponse>
+                {
+                    HttpResponse = response.HttpResponse
+                };
+            }
+        }
+
+        public RestResponse Send(string url, HttpMethod httpMethod, IAuthenticator authenticator = null, HttpContentType httpContentType = HttpContentType.Form, string body = null)
         {
             var request = new HttpRequest(url, httpMethod, httpContentType);
 
-            Authenticate(request, restAuthenticationInfo);
+            Authenticate(request, authenticator);
 
             request.Body = body;
 
@@ -41,60 +57,45 @@ namespace Jal.RestClient.Impl
             };
         }
 
-        public RestResponse<TResponse> Get<TResponse>(string url, RestAuthenticationInfo restAuthenticationInfo = null)
+        public RestResponse Get(string url, IAuthenticator authenticator = null)
         {
-            var request = new HttpRequest(url, HttpMethod.Get, HttpContentType.Form);
-
-            Authenticate(request, restAuthenticationInfo);
-
-            var response = _httpHandler.Send(request);
-
-            if (response != null && response.HttpStatusCode == HttpStatusCode.OK)
-            {
-                return new RestResponse<TResponse>
-                {
-                    HttpResponse = response,
-                    Result = _modelConverter.Convert<string, TResponse>(response.Content)
-                };
-            }
-            else
-            {
-                return new RestResponse<TResponse>
-                {
-                    HttpResponse = response
-                };
-            }
+            return Send(url, HttpMethod.Get, authenticator);
         }
 
-        public RestResponse Get(string url, RestAuthenticationInfo restAuthenticationInfo = null)
-        {
-            return Send(url, HttpMethod.Get, restAuthenticationInfo);
-        }
-
-        public RestResponse Post<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null)
+        public RestResponse Post<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, IAuthenticator authenticator = null)
         {
             var body = _modelConverter.Convert<TContent, string>(content);
 
-            return Send(url, HttpMethod.Post, restAuthenticationInfo, httpContentType, body);
+            return Send(url, HttpMethod.Post, authenticator, httpContentType, body);
         }
 
-        public RestResponse Put<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, RestAuthenticationInfo restAuthenticationInfo = null)
+        public RestResponse Put<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, IAuthenticator authenticator = null)
         {
             var body = _modelConverter.Convert<TContent, string>(content);
 
-            return Send(url, HttpMethod.Put, restAuthenticationInfo, httpContentType, body);
+            return Send(url, HttpMethod.Put, authenticator, httpContentType, body);
         }
 
-        public RestResponse Delete(string url, RestAuthenticationInfo restAuthenticationInfo = null)
+        public RestResponse Post(string url, string content, HttpContentType httpContentType = HttpContentType.Json, IAuthenticator authenticator = null)
         {
-            return Send(url, HttpMethod.Delete, restAuthenticationInfo);
+            return Send(url, HttpMethod.Post, authenticator, httpContentType, content);
         }
 
-        private void Authenticate(HttpRequest request, RestAuthenticationInfo restAuthenticationInfo)
+        public RestResponse Put(string url, string content, HttpContentType httpContentType = HttpContentType.Json, IAuthenticator authenticator = null)
         {
-            if (restAuthenticationInfo != null)
+            return Send(url, HttpMethod.Put, authenticator, httpContentType, content);
+        }
+
+        public RestResponse Delete(string url, IAuthenticator authenticator = null)
+        {
+            return Send(url, HttpMethod.Delete, authenticator);
+        }
+
+        private void Authenticate(HttpRequest request, IAuthenticator authenticator)
+        {
+            if (authenticator != null)
             {
-                Authenticator.Authenticate(request, restAuthenticationInfo);
+                authenticator.Authenticate(request, _httpHandler);
             }
         }
     }
