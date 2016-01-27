@@ -12,6 +12,8 @@ namespace Jal.RestClient.Installer
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(Component.For<IRestHandler>().ImplementedBy<RestHandler>());
+            container.Register(Component.For<IRestHandlerBuilder>().ImplementedBy<RestHandlerBuilder>());
+            
         }
     }
 }

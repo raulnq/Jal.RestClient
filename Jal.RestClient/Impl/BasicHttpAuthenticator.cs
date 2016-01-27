@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 using Jal.HttpClient.Interface;
 using Jal.HttpClient.Model;
@@ -20,7 +21,12 @@ namespace Jal.RestClient.Impl
 
         public void Authenticate(HttpRequest httpRequest, IHttpHandler httpHandler)
         {
-            httpRequest.AddHeader("Authorization", string.Format("{0} {1}", "Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(_user + ":" + _password))));
+            var item = httpRequest.Headers.FirstOrDefault(x => x.Name == "Authorization");
+            if (item != null)
+            {
+                httpRequest.Headers.Remove(item);
+            }
+            httpRequest.Headers.Add(new HttpHeader() { Value = string.Format("{0} {1}", "Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(_user + ":" + _password))), Name = "Authorization" });
         }
     }
 }

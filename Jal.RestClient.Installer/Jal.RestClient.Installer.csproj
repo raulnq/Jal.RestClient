@@ -41,17 +41,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.Converter, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Jal.HttpClient, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Jal.Converter.1.1.1.0\lib\net40\Jal.Converter.dll</HintPath>
-    </Reference>
-    <Reference Include="Jal.HttpClient, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Jal.HttpClient.1.1.0.0\lib\net45\Jal.HttpClient.dll</HintPath>
-    </Reference>
-    <Reference Include="Jal.Locator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Jal.Locator.1.0.0.0\lib\net40\Jal.Locator.dll</HintPath>
+      <HintPath>..\packages\Jal.HttpClient.1.3.0.0\lib\net45\Jal.HttpClient.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

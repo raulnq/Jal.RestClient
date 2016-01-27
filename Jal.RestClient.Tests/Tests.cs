@@ -6,10 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Castle.Windsor;
 using Jal.Converter.Installer;
+using Jal.Converter.Interface;
 using Jal.HttpClient.Installer;
 using Jal.HttpClient.Interface;
 using Jal.HttpClient.Model;
 using Jal.Locator.CastleWindsor.Installer;
+using Jal.RestClient.Fluent;
 using Jal.RestClient.Installer;
 using Jal.RestClient.Interface;
 using Jal.RestClient.Model;
@@ -35,11 +37,12 @@ namespace Jal.RestClient.Tests
 
             container.Install(new RestClientInstaller());
 
-            var restHandler = container.Resolve<IRestHandler>();
+            var modelConverter = container.Resolve<IModelConverter>();
 
-            var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/");
+            var restHandler = container.Resolve<IRestHandlerBuilder>();
 
-            var res = restHandler.To<Customer[]>(response, new []{ HttpStatusCode.OK});
+            var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/2")
+                .Send(x => modelConverter.Convert<string, Customer>(x), new []{HttpStatusCode.OK});
         }
 
         [Test]
@@ -57,11 +60,13 @@ namespace Jal.RestClient.Tests
 
             container.Install(new RestClientInstaller());
 
-            var restHandler = container.Resolve<IRestHandler>();
+            var restHandler = container.Resolve<IRestHandlerBuilder>();
 
-            var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/2");
+            var modelConverter = container.Resolve<IModelConverter>();
 
-            var res = restHandler.To<Customer>(response, new[] { HttpStatusCode.OK });
+            var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/")
+                .Send(x => modelConverter.Convert<string, Customer[]>(x), new[] { HttpStatusCode.OK });
+
         }
 
         [Test]
@@ -79,9 +84,9 @@ namespace Jal.RestClient.Tests
 
             container.Install(new RestClientInstaller());
 
-            var restHandler = container.Resolve<IRestHandler>();
+            var restHandler = container.Resolve<IRestHandlerBuilder>();
 
-            var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/");
+            var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/").Send();
         }
 
         [Test]
@@ -99,9 +104,14 @@ namespace Jal.RestClient.Tests
 
             container.Install(new RestClientInstaller());
 
-            var restHandler = container.Resolve<IRestHandler>();
+            var restHandler = container.Resolve<IRestHandlerBuilder>();
 
-            var response = restHandler.Post("http://www.thomas-bayer.com/sqlrest/CUSTOMER/", new Customer(), HttpContentType.Xml);
+             var modelConverter = container.Resolve<IModelConverter>();
+
+            var response = restHandler
+                .Post("http://www.thomas-bayer.com/sqlrest/CUSTOMER/")
+                .Xml(new Customer(), x => modelConverter.Convert<Customer, string>(x))
+                .Send();
         }
     }
 }

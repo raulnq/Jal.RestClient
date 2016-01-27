@@ -5,6 +5,8 @@ namespace Jal.RestClient.Model
     public class RestResponse
     {
         public HttpResponse HttpResponse { get; set; }
+
+        public HttpRequest HttpResquest { get; set; }
     }
 
     public class RestResponse<T> : RestResponse

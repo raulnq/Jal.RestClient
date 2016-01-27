@@ -54,11 +54,13 @@
     <Reference Include="Jal.Converter.Installer">
       <HintPath>..\packages\Jal.Converter.Installer.1.1.1.0\lib\net40\Jal.Converter.Installer.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.HttpClient">
-      <HintPath>..\packages\Jal.HttpClient.1.1.0.0\lib\net45\Jal.HttpClient.dll</HintPath>
+    <Reference Include="Jal.HttpClient, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Jal.HttpClient.1.3.0.0\lib\net45\Jal.HttpClient.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.HttpClient.Installer">
-      <HintPath>..\packages\Jal.HttpClient.Installer.1.1.0.0\lib\net45\Jal.HttpClient.Installer.dll</HintPath>
+    <Reference Include="Jal.HttpClient.Installer, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Jal.HttpClient.Installer.1.3.0.0\lib\net45\Jal.HttpClient.Installer.dll</HintPath>
     </Reference>
     <Reference Include="Jal.Locator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -88,6 +90,7 @@
     <Compile Include="CustomerToStringConverter.cs" />
     <Compile Include="StringToCustomerConverter.cs" />
     <Compile Include="StringToCustomersConverter.cs" />
+    <Compile Include="RestHandlerTests.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>

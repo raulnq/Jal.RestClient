@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Jal.HttpClient.Model;
 using Jal.RestClient.Interface;
 using Jal.RestClient.Model;
@@ -9,19 +8,23 @@ namespace Jal.RestClient.Impl
 {
     public partial class RestHandler
     {
-        public async Task<RestResponse> SendAsync(string url, HttpMethod httpMethod, IAuthenticator authenticator = null, HttpContentType httpContentType = HttpContentType.Form, string body = null)
+        public async Task<RestResponse> SendAsync(string url, HttpMethod httpMethod, IAuthenticator authenticator = null, string contentType = null, string content = null, string characterSet = null)
         {
-            var request = new HttpRequest(url, httpMethod, httpContentType);
+            var request = new HttpRequest(url, httpMethod)
+                          {
+                              ContentType = contentType,
+                              Content = content,
+                              CharacterSet = characterSet
+                          };
 
             Authenticate(request, authenticator);
-
-            request.Body = body;
 
             var response = await _httpHandler.SendAsync(request);
 
             return new RestResponse
             {
-                HttpResponse = response
+                HttpResponse = response,
+                HttpResquest = request
             };
         }
 
@@ -30,28 +33,14 @@ namespace Jal.RestClient.Impl
             return SendAsync(url, HttpMethod.Get, authenticator);
         }
 
-        public Task<RestResponse> PostAsync<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, IAuthenticator authenticator = null)
+        public Task<RestResponse> PostAsync(string url, string content, string contentType = "application/json", IAuthenticator authenticator = null)
         {
-            var body = _modelConverter.Convert<TContent, string>(content);
-
-            return SendAsync(url, HttpMethod.Post, authenticator, httpContentType, body);
+            return SendAsync(url, HttpMethod.Post, authenticator, contentType, content, "charset=UTF-8");
         }
 
-        public Task<RestResponse> PutAsync<TContent>(string url, TContent content, HttpContentType httpContentType = HttpContentType.Json, IAuthenticator authenticator = null)
+        public Task<RestResponse> PutAsync(string url, string content, string contentType = "application/json", IAuthenticator authenticator = null)
         {
-            var body = _modelConverter.Convert<TContent, string>(content);
-
-            return SendAsync(url, HttpMethod.Put, authenticator, httpContentType, body);
-        }
-
-        public Task<RestResponse> PostAsync(string url, string content, HttpContentType httpContentType = HttpContentType.Json, IAuthenticator authenticator = null)
-        {
-            return SendAsync(url, HttpMethod.Post, authenticator, httpContentType, content);
-        }
-
-        public Task<RestResponse> PutAsync(string url, string content, HttpContentType httpContentType = HttpContentType.Json, IAuthenticator authenticator = null)
-        {
-            return SendAsync(url, HttpMethod.Put, authenticator, httpContentType, content);
+            return SendAsync(url, HttpMethod.Put, authenticator, contentType, content, "charset=UTF-8");
         }
 
         public Task<RestResponse> DeleteAsync(string url, IAuthenticator authenticator = null)
