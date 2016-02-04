@@ -19,7 +19,7 @@ namespace Jal.RestClient.Impl
 
             Authenticate(request, authenticator);
 
-            var response = await _httpHandler.SendAsync(request);
+            var response = await HttpHandler.SendAsync(request);
 
             return new RestResponse
             {

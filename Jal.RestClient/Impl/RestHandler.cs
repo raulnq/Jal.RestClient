@@ -8,11 +8,11 @@ namespace Jal.RestClient.Impl
 {
     public partial class RestHandler : IRestHandler
     {
-        readonly IHttpHandler _httpHandler;
+        public IHttpHandler HttpHandler { get; private set; }
 
         public RestHandler(IHttpHandler httpHandler)
         {
-            _httpHandler = httpHandler;
+            HttpHandler = httpHandler;
         }
 
         public RestResponse Send(string url, HttpMethod httpMethod, IAuthenticator authenticator = null, string contentType = null, string content = null, string httpCharacterSet = null)
@@ -26,7 +26,7 @@ namespace Jal.RestClient.Impl
 
             Authenticate(request, authenticator);
 
-            var response = _httpHandler.Send(request);
+            var response = HttpHandler.Send(request);
 
             return new RestResponse
             {
@@ -59,7 +59,7 @@ namespace Jal.RestClient.Impl
         {
             if (authenticator != null)
             {
-                authenticator.Authenticate(request, _httpHandler);
+                authenticator.Authenticate(request, this);
             }
         }
     }

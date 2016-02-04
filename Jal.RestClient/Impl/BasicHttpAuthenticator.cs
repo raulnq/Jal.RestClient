@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using System.Text;
-using Jal.HttpClient.Interface;
 using Jal.HttpClient.Model;
 using Jal.RestClient.Interface;
 
@@ -19,7 +18,7 @@ namespace Jal.RestClient.Impl
             _password = password;
         }
 
-        public void Authenticate(HttpRequest httpRequest, IHttpHandler httpHandler)
+        public void Authenticate(HttpRequest httpRequest, IRestHandler restHandler)
         {
             var item = httpRequest.Headers.FirstOrDefault(x => x.Name == "Authorization");
             if (item != null)

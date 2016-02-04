@@ -1,8 +1,6 @@
 ﻿using System.Linq;
-using Jal.HttpClient.Interface;
 using Jal.HttpClient.Model;
 using Jal.RestClient.Interface;
-using Jal.RestClient.Model;
 
 namespace Jal.RestClient.Impl
 {
@@ -15,7 +13,7 @@ namespace Jal.RestClient.Impl
             _token = token;
         }
 
-        public void Authenticate(HttpRequest httpRequest, IHttpHandler httpHandler)
+        public void Authenticate(HttpRequest httpRequest, IRestHandler restHandler)
         {
             var item = httpRequest.Headers.FirstOrDefault(x => x.Name == "Authorization");
             if (item != null)
