@@ -46,7 +46,7 @@ namespace Jal.RestClient.Fluent
             return this;
         }
 
-        public IAcceptedTypeDescriptor WithAcceptedType(string acceptedType)
+        public IAuthenticatorDescriptor WithAcceptedType(string acceptedType)
         {
             AcceptedType = acceptedType;
             return this;
