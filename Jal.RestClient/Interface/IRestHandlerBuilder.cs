@@ -4,7 +4,7 @@ namespace Jal.RestClient.Interface
 {
     public interface IRestHandlerBuilder
     {
-        IAuthenticatorDescriptor Get(string url);
+        IAcceptedTypeDescriptor Get(string url);
 
         IContentDescriptor Post(string url);
 

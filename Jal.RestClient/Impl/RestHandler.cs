@@ -15,13 +15,14 @@ namespace Jal.RestClient.Impl
             HttpHandler = httpHandler;
         }
 
-        public RestResponse Send(string url, HttpMethod httpMethod, IAuthenticator authenticator = null, string contentType = null, string content = null, string httpCharacterSet = null)
+        public RestResponse Send(string url, HttpMethod httpMethod, IAuthenticator authenticator = null, string contentType = null, string content = null, string httpCharacterSet = null, string acceptedType = null)
         {
             var request = new HttpRequest(url, httpMethod)
                           {
                               ContentType = contentType,
                               Content = content,
-                              CharacterSet = httpCharacterSet
+                              CharacterSet = httpCharacterSet,
+                              AcceptedType = acceptedType
                           };
 
             Authenticate(request, authenticator);
@@ -35,9 +36,9 @@ namespace Jal.RestClient.Impl
             };
         }
 
-        public RestResponse Get(string url, IAuthenticator authenticator = null)
+        public RestResponse Get(string url, string acceptedType = null, IAuthenticator authenticator = null)
         {
-            return Send(url, HttpMethod.Get, authenticator);
+            return Send(url, HttpMethod.Get, authenticator, null, null, null, acceptedType);
         }
 
         public RestResponse Post(string url, string content, string contentType = "application/json", IAuthenticator authenticator = null)

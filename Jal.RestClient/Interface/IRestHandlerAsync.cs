@@ -5,7 +5,7 @@ namespace Jal.RestClient.Interface
 {
     public partial interface IRestHandler
     {
-        Task<RestResponse> GetAsync(string url, IAuthenticator authenticator = null);
+        Task<RestResponse> GetAsync(string url, string acceptedType = null, IAuthenticator authenticator = null);
 
         Task<RestResponse> PostAsync(string url, string content, string contentType = "application/json", IAuthenticator authenticator = null);
 

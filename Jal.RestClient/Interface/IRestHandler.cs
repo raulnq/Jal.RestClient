@@ -11,7 +11,7 @@ namespace Jal.RestClient.Interface
     {
         IHttpHandler HttpHandler { get; }
 
-        RestResponse Get(string url, IAuthenticator authenticator = null);
+        RestResponse Get(string url, string acceptedType = null, IAuthenticator authenticator = null);
 
         RestResponse Post(string url, string content, string contentType = "application/json", IAuthenticator authenticator = null);
 

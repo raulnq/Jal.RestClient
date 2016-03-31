@@ -7,13 +7,13 @@ using Jal.RestClient.Model;
 
 namespace Jal.RestClient.Fluent
 {
-    public class RestHandlerDescriptor : IContentDescriptor, IAuthenticatorDescriptor
+    public class RestHandlerDescriptor : IContentDescriptor, IAcceptedTypeDescriptor, IAuthenticatorDescriptor
     {
         protected IAuthenticator Authenticator;
 
-        protected readonly Func<string, IAuthenticator, string, string, RestResponse> Verb;
+        protected readonly Func<string, IAuthenticator, string, string, string, RestResponse> Verb;
 
-        protected readonly Func<string, IAuthenticator, string, string, Task<RestResponse>> VerbAsync;
+        protected readonly Func<string, IAuthenticator, string, string, string, Task<RestResponse>> VerbAsync;
 
         protected readonly string Url;
 
@@ -21,7 +21,9 @@ namespace Jal.RestClient.Fluent
 
         protected string Content;
 
-        public RestHandlerDescriptor(string url, Func<string, IAuthenticator, string, string, RestResponse> verb, Func<string, IAuthenticator, string, string, Task<RestResponse>> verbAsync)
+        protected string AcceptedType;
+
+        public RestHandlerDescriptor(string url, Func<string, IAuthenticator, string, string, string, RestResponse> verb, Func<string, IAuthenticator, string, string, string, Task<RestResponse>> verbAsync)
         {
             Verb = verb;
             VerbAsync = verbAsync;
@@ -30,17 +32,23 @@ namespace Jal.RestClient.Fluent
 
         public RestResponse Send()
         {
-            return Verb(Url, Authenticator, Content, ContentType);
+            return Verb(Url, Authenticator, Content, ContentType, AcceptedType);
         }
 
         public Task<RestResponse> SendAsync()
         {
-            return VerbAsync(Url, Authenticator, Content, ContentType);
+            return VerbAsync(Url, Authenticator, Content, ContentType, AcceptedType);
         }
 
         public ISenderDescriptor WithAuthenticator(IAuthenticator authenticator)
         {
             Authenticator = authenticator;
+            return this;
+        }
+
+        public IAcceptedTypeDescriptor WithAcceptedType(string acceptedType)
+        {
+            AcceptedType = acceptedType;
             return this;
         }
 
@@ -67,7 +75,7 @@ namespace Jal.RestClient.Fluent
                 throw new ArgumentNullException("converter");
             }
 
-            var response = Verb(Url, Authenticator, Content, ContentType);
+            var response = Verb(Url, Authenticator, Content, ContentType, AcceptedType);
 
             if (response != null && response.HttpResponse != null && !string.IsNullOrEmpty(response.HttpResponse.Content) && successfulStatusCodes.Contains(response.HttpResponse.HttpStatusCode))
             { 
@@ -92,7 +100,7 @@ namespace Jal.RestClient.Fluent
                 throw new ArgumentNullException("converter");
             }
 
-            var response =await VerbAsync(Url, Authenticator, Content, ContentType);
+            var response =await VerbAsync(Url, Authenticator, Content, ContentType, AcceptedType);
 
             if (response != null && response.HttpResponse != null && !string.IsNullOrEmpty(response.HttpResponse.Content) && successfulStatusCodes.Contains(response.HttpResponse.HttpStatusCode))
             {

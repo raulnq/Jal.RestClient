@@ -8,13 +8,14 @@ namespace Jal.RestClient.Impl
 {
     public partial class RestHandler
     {
-        public async Task<RestResponse> SendAsync(string url, HttpMethod httpMethod, IAuthenticator authenticator = null, string contentType = null, string content = null, string characterSet = null)
+        public async Task<RestResponse> SendAsync(string url, HttpMethod httpMethod, IAuthenticator authenticator = null, string contentType = null, string content = null, string characterSet = null, string acceptedType = null)
         {
             var request = new HttpRequest(url, httpMethod)
                           {
                               ContentType = contentType,
                               Content = content,
-                              CharacterSet = characterSet
+                              CharacterSet = characterSet,
+                              AcceptedType = acceptedType
                           };
 
             Authenticate(request, authenticator);
@@ -28,9 +29,9 @@ namespace Jal.RestClient.Impl
             };
         }
 
-        public Task<RestResponse> GetAsync(string url, IAuthenticator authenticator = null)
+        public Task<RestResponse> GetAsync(string url, string acceptedType = null, IAuthenticator authenticator = null)
         {
-            return SendAsync(url, HttpMethod.Get, authenticator);
+            return SendAsync(url, HttpMethod.Get, authenticator, null, null, null, acceptedType);
         }
 
         public Task<RestResponse> PostAsync(string url, string content, string contentType = "application/json", IAuthenticator authenticator = null)

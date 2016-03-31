@@ -13,24 +13,24 @@ namespace Jal.RestClient.Impl
             _restHandler = restHandler;
         }
 
-        public IAuthenticatorDescriptor Get(string url)
+        public IAcceptedTypeDescriptor Get(string url)
         {
-            return new RestHandlerDescriptor(url, (u, a, c, t) => _restHandler.Get(u, a), (u, a, c, t) => _restHandler.GetAsync(u, a));
+            return new RestHandlerDescriptor(url, (u, a, c, t, at) => _restHandler.Get(u, at, a), (u, a, c, t, at) => _restHandler.GetAsync(u, at, a));
         }
 
         public IContentDescriptor Post(string url)
         {
-            return new RestHandlerDescriptor(url, (u, a, c, t) => _restHandler.Post(u, c, t, a), (u, a, c, t) => _restHandler.PostAsync(u, c, t, a));
+            return new RestHandlerDescriptor(url, (u, a, c, t, at) => _restHandler.Post(u, c, t, a), (u, a, c, t, at) => _restHandler.PostAsync(u, c, t, a));
         }
 
         public IContentDescriptor Put(string url)
         {
-            return new RestHandlerDescriptor(url, (u, a, c, t) => _restHandler.Put(u, c, t, a), (u, a, c, t) => _restHandler.PutAsync(u, c, t, a));
+            return new RestHandlerDescriptor(url, (u, a, c, t, at) => _restHandler.Put(u, c, t, a), (u, a, c, t,at) => _restHandler.PutAsync(u, c, t, a));
         }
 
         public IAuthenticatorDescriptor Delete(string url)
         {
-            return new RestHandlerDescriptor(url, (u, a, c, t) => _restHandler.Delete(u, a), (u, a, c, t) => _restHandler.DeleteAsync(u, a));
+            return new RestHandlerDescriptor(url, (u, a, c, t, at) => _restHandler.Delete(u, a), (u, a, c, t, at) => _restHandler.DeleteAsync(u, a));
         }
     }
 }
