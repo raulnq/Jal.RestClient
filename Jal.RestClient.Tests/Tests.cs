@@ -25,7 +25,7 @@ namespace Jal.RestClient.Tests
         [Test]
         public void Get_List_Successful()
         {
-            AssemblyFinder.Impl.AssemblyFinder.Current = new AssemblyFinder.Impl.AssemblyFinder(TestContext.CurrentContext.TestDirectory);
+            AssemblyFinder.Impl.AssemblyFinder.Current = AssemblyFinder.Impl.AssemblyFinder.Builder.UsePath(TestContext.CurrentContext.TestDirectory).Create;
 
             var container = new WindsorContainer();
 
@@ -33,7 +33,7 @@ namespace Jal.RestClient.Tests
 
             container.Install(new HttpClientInstaller());
 
-            container.Install(new ConverterInstaller());
+            container.Install(new ConverterInstaller(() => AssemblyFinder.Impl.AssemblyFinder.Current.GetAssemblies("Converter")));
 
             container.Install(new RestClientInstaller());
 
@@ -48,7 +48,7 @@ namespace Jal.RestClient.Tests
         [Test]
         public void Get_Item_Successful()
         {
-            AssemblyFinder.Impl.AssemblyFinder.Current = new AssemblyFinder.Impl.AssemblyFinder(TestContext.CurrentContext.TestDirectory);
+            AssemblyFinder.Impl.AssemblyFinder.Current = AssemblyFinder.Impl.AssemblyFinder.Builder.UsePath(TestContext.CurrentContext.TestDirectory).Create;
 
             var container = new WindsorContainer();
 
@@ -56,7 +56,7 @@ namespace Jal.RestClient.Tests
 
             container.Install(new HttpClientInstaller());
 
-            container.Install(new ConverterInstaller());
+            container.Install(new ConverterInstaller(() => AssemblyFinder.Impl.AssemblyFinder.Current.GetAssemblies("Converter")));
 
             container.Install(new RestClientInstaller());
 
@@ -72,7 +72,7 @@ namespace Jal.RestClient.Tests
         [Test]
         public void GetSimple_Item_Successful()
         {
-            AssemblyFinder.Impl.AssemblyFinder.Current = new AssemblyFinder.Impl.AssemblyFinder(TestContext.CurrentContext.TestDirectory);
+            AssemblyFinder.Impl.AssemblyFinder.Current = AssemblyFinder.Impl.AssemblyFinder.Builder.UsePath(TestContext.CurrentContext.TestDirectory).Create;
 
             var container = new WindsorContainer();
 
@@ -80,7 +80,7 @@ namespace Jal.RestClient.Tests
 
             container.Install(new HttpClientInstaller());
 
-            container.Install(new ConverterInstaller());
+            container.Install(new ConverterInstaller(() => AssemblyFinder.Impl.AssemblyFinder.Current.GetAssemblies("Converter")));
 
             container.Install(new RestClientInstaller());
 
@@ -92,7 +92,7 @@ namespace Jal.RestClient.Tests
         [Test]
         public void Post_Item_Successful()
         {
-            AssemblyFinder.Impl.AssemblyFinder.Current = new AssemblyFinder.Impl.AssemblyFinder(TestContext.CurrentContext.TestDirectory);
+            AssemblyFinder.Impl.AssemblyFinder.Current = AssemblyFinder.Impl.AssemblyFinder.Builder.UsePath(TestContext.CurrentContext.TestDirectory).Create;
 
             var container = new WindsorContainer();
 
@@ -100,7 +100,7 @@ namespace Jal.RestClient.Tests
 
             container.Install(new HttpClientInstaller());
 
-            container.Install(new ConverterInstaller());
+            container.Install(new ConverterInstaller(() => AssemblyFinder.Impl.AssemblyFinder.Current.GetAssemblies("Converter")));
 
             container.Install(new RestClientInstaller());
 
