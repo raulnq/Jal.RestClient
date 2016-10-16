@@ -11,6 +11,6 @@ namespace Jal.RestClient.Model
 
     public class RestResponse<T> : RestResponse
     {
-        public T Result { get; set; }
+        public T Data { get; set; }
     }
 }

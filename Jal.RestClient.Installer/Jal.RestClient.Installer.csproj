@@ -58,6 +58,7 @@
     <Compile Include="RestClientInstaller.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Jal.RestClient.Installer.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

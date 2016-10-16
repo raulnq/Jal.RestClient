@@ -18,14 +18,14 @@ namespace Jal.RestClient.Impl
             _password = password;
         }
 
-        public void Authenticate(HttpRequest httpRequest, IRestHandler restHandler)
+        public void Authenticate(HttpRequest httpRequest)
         {
             var item = httpRequest.Headers.FirstOrDefault(x => x.Name == "Authorization");
             if (item != null)
             {
                 httpRequest.Headers.Remove(item);
             }
-            httpRequest.Headers.Add(new HttpHeader() { Value = string.Format("{0} {1}", "Basic", Convert.ToBase64String(Encoding.UTF8.GetBytes(_user + ":" + _password))), Name = "Authorization" });
+            httpRequest.Headers.Add(new HttpHeader() { Value = $"{"Basic"} {Convert.ToBase64String(Encoding.UTF8.GetBytes(_user + ":" + _password))}", Name = "Authorization" });
         }
     }
 }

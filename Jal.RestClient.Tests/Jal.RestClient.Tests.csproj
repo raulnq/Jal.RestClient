@@ -47,29 +47,29 @@
     <Reference Include="Jal.AssemblyFinder">
       <HintPath>..\packages\Jal.AssemblyFinder.1.1.1.0\lib\net40\Jal.AssemblyFinder.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.Converter, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Jal.Converter.1.1.6.0\lib\net40\Jal.Converter.dll</HintPath>
+    <Reference Include="Jal.Converter, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.Converter.1.1.8\lib\net40\Jal.Converter.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Jal.Converter.Installer, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Jal.Converter.Installer.1.1.4.0\lib\net40\Jal.Converter.Installer.dll</HintPath>
+    <Reference Include="Jal.Converter.Installer, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.Converter.Installer.1.1.6\lib\net40\Jal.Converter.Installer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Jal.HttpClient, Version=1.3.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Jal.HttpClient.1.3.6.0\lib\net45\Jal.HttpClient.dll</HintPath>
+    <Reference Include="Jal.HttpClient, Version=1.3.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.HttpClient.1.3.8\lib\net45\Jal.HttpClient.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Jal.HttpClient.Installer, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Jal.HttpClient.Installer.1.3.1.0\lib\net45\Jal.HttpClient.Installer.dll</HintPath>
+    <Reference Include="Jal.HttpClient.Installer, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.HttpClient.Installer.1.3.2\lib\net45\Jal.HttpClient.Installer.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Jal.Locator, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Jal.Locator.1.0.5.0\lib\net40\Jal.Locator.dll</HintPath>
+    <Reference Include="Jal.Locator, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.Locator.1.0.6.0\lib\net40\Jal.Locator.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Jal.Locator.CastleWindsor, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Jal.Locator.CastleWindsor.1.0.3.0\lib\net40\Jal.Locator.CastleWindsor.dll</HintPath>
+    <Reference Include="Jal.Locator.CastleWindsor, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.Locator.CastleWindsor.1.0.4.0\lib\net40\Jal.Locator.CastleWindsor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -80,6 +80,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -89,10 +90,6 @@
   <ItemGroup>
     <Compile Include="Customer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CustomerToStringConverter.cs" />
-    <Compile Include="StringToCustomerConverter.cs" />
-    <Compile Include="StringToCustomersConverter.cs" />
-    <Compile Include="RestHandlerTests.cs" />
     <Compile Include="Tests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +99,10 @@
     <ProjectReference Include="..\Jal.RestClient.Installer\Jal.RestClient.Installer.csproj">
       <Project>{FD83BEB1-0C1D-4599-9C58-70726911FF90}</Project>
       <Name>Jal.RestClient.Installer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Jal.RestClient.Json\Jal.RestClient.Json.csproj">
+      <Project>{6087601f-a47f-4e78-854f-45c6db4e426a}</Project>
+      <Name>Jal.RestClient.Json</Name>
     </ProjectReference>
     <ProjectReference Include="..\Jal.RestClient\Jal.RestClient.csproj">
       <Project>{D34C78BA-8E63-4DC2-B4A2-DF52AB081F49}</Project>

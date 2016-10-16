@@ -1,17 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D34C78BA-8E63-4DC2-B4A2-DF52AB081F49}</ProjectGuid>
+    <ProjectGuid>{84D5C67E-E94C-471E-8C15-4980D1D9F311}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Jal.RestClient</RootNamespace>
-    <AssemblyName>Jal.RestClient</AssemblyName>
+    <RootNamespace>Jal.RestClient.LightInject.Installer</RootNamespace>
+    <AssemblyName>Jal.RestClient.LightInject.Installer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,11 +28,10 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jal.HttpClient, Version=1.3.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.HttpClient.1.3.8\lib\net45\Jal.HttpClient.dll</HintPath>
+    <Reference Include="LightInject, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LightInject.4.1.0\lib\net45\LightInject.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -43,37 +40,21 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Impl\Fluent\RestFluentHandlerBuilder.cs" />
-    <Compile Include="Interface\Fluent\IRestFluentHandlerEndBuilder.cs" />
-    <Compile Include="Interface\Fluent\IRestFluentHandlerStartBuilder.cs" />
-    <Compile Include="Impl\Fluent\RestFluentDescriptorExtensions.cs" />
-    <Compile Include="Impl\Fluent\RestFluentHandler.cs" />
-    <Compile Include="Impl\Fluent\RestSenderDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestContentDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestQueryParameteDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestAuthenticatorDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestFluentHandler.cs" />
-    <Compile Include="Interface\Fluent\IRestHeaderDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestMapDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestResourceDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestSenderDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestTimeoutDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestVerbDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestWhenDescriptor.cs" />
-    <Compile Include="Impl\Fluent\RestFluentDescriptor.cs" />
-    <Compile Include="Impl\BasicHttpAuthenticator.cs" />
-    <Compile Include="Impl\TokenAuthenticator.cs" />
-    <Compile Include="Interface\IAuthenticator.cs" />
-    <Compile Include="Model\DescriptorContext.cs" />
-    <Compile Include="Model\RestResponse.cs" />
+    <Compile Include="RestClientCompositionRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Jal.RestClient.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jal.RestClient\Jal.RestClient.csproj">
+      <Project>{D34C78BA-8E63-4DC2-B4A2-DF52AB081F49}</Project>
+      <Name>Jal.RestClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

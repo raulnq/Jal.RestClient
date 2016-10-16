@@ -4,6 +4,6 @@ namespace Jal.RestClient.Interface
 {
     public interface IAuthenticator
     {
-        void Authenticate(HttpRequest httpRequest, IRestHandler restHandler);
+        void Authenticate(HttpRequest httpRequest);
     }
 }

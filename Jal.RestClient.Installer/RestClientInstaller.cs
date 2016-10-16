@@ -1,8 +1,8 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Jal.RestClient.Impl;
-using Jal.RestClient.Interface;
+using Jal.RestClient.Impl.Fluent;
+using Jal.RestClient.Interface.Fluent;
 
 namespace Jal.RestClient.Installer
 {
@@ -11,9 +11,7 @@ namespace Jal.RestClient.Installer
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
-            container.Register(Component.For<IRestHandler>().ImplementedBy<RestHandler>());
-            container.Register(Component.For<IRestHandlerBuilder>().ImplementedBy<RestHandlerBuilder>());
-            
+            container.Register(Component.For<IRestFluentHandler>().ImplementedBy<RestFluentHandler>());     
         }
     }
 }

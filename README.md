@@ -17,8 +17,24 @@ Install the Jal.RestClient library
     
 Resolve an instance of the IRestHandler class
 
-    var restHandler = container.Resolve<IRestHandler>();
-    
-Send a request to http://www.thomas-bayer.com/sqlrest/CUSTOMER/
+    var restHandler = container.Resolve<IRestFluentHandler>();
 
-    var response = restHandler.Get("http://www.thomas-bayer.com/sqlrest/CUSTOMER/");
+Use the Json serializer extension methods Jal.RestClient.Json
+
+Send requests to https://jsonplaceholder.typicode.com
+
+    var response= _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Get.MapTo<Post>().Send;
+
+    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts").WithQueryParameter(x=>x.Add("userId","1")).Get.MapTo<Post[]>().Send;
+
+    var post = new Customer() {Body = "", Title = "", UserId = 2};
+
+    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts").Post.Data(post).MapTo<Post>().Send;
+
+    var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1};
+
+    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Put.Data(post).MapTo<Post>().Send;
+
+    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Delete.Send;
+
+    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").AuthorizedByBasicHttp("user","password").Path("posts/1").Get.MapTo<Post>().Send;
