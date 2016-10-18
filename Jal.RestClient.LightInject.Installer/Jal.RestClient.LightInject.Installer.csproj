@@ -48,6 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Jal.RestClient.LightInject.Installer.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

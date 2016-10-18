@@ -44,31 +44,12 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.AssemblyFinder">
-      <HintPath>..\packages\Jal.AssemblyFinder.1.1.1.0\lib\net40\Jal.AssemblyFinder.dll</HintPath>
-    </Reference>
-    <Reference Include="Jal.Converter, Version=1.1.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.Converter.1.1.8\lib\net40\Jal.Converter.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Jal.Converter.Installer, Version=1.1.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.Converter.Installer.1.1.6\lib\net40\Jal.Converter.Installer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Jal.HttpClient, Version=1.3.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Jal.HttpClient.1.3.8\lib\net45\Jal.HttpClient.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Jal.HttpClient.Installer, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Jal.HttpClient.Installer.1.3.2\lib\net45\Jal.HttpClient.Installer.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Jal.Locator, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.Locator.1.0.6.0\lib\net40\Jal.Locator.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Jal.Locator.CastleWindsor, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.Locator.CastleWindsor.1.0.4.0\lib\net40\Jal.Locator.CastleWindsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">

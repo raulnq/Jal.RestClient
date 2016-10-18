@@ -1,4 +1,5 @@
 # Jal.RestClient
+
 Just another library to call REST web services
 
 Note: The Jal.HttpClient library is needed.
@@ -7,11 +8,11 @@ Setup the Castle Windsor container
 
     var container = new WindsorContainer();
     
-Install the Jal.HttpClient library
+Install the Jal.HttpClient library. The Jal.HttpClient.Installer is needed (you can use as well the LightInjecy version).
 
     container.Install(new HttpClientInstaller());
     
-Install the Jal.RestClient library
+Install the Jal.RestClient library. The Jal.RestClient.Installer is needed  (you can use as well the LightInjecy version).
 
     container.Install(new RestClientInstaller());
     

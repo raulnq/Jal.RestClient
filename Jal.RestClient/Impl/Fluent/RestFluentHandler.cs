@@ -1,7 +1,5 @@
 using System;
-using Jal.HttpClient.Impl.Fluent;
 using Jal.HttpClient.Interface;
-using Jal.HttpClient.Interface.Fluent;
 using Jal.HttpClient.Model;
 using Jal.RestClient.Interface.Fluent;
 

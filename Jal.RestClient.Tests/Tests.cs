@@ -1,24 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using System.Web;
 using Castle.Windsor;
-using Jal.Converter.Installer;
-using Jal.Converter.Interface;
 using Jal.HttpClient.Installer;
-using Jal.HttpClient.Interface;
-using Jal.HttpClient.Model;
-using Jal.Locator.CastleWindsor.Installer;
 using Jal.RestClient.Impl.Fluent;
 using Jal.RestClient.Installer;
-using Jal.RestClient.Interface;
 using Jal.RestClient.Interface.Fluent;
-using Jal.RestClient.Model;
-using NUnit.Framework;
 using Jal.RestClient.Json;
+using NUnit.Framework;
 using Shouldly;
 
 namespace Jal.RestClient.Tests

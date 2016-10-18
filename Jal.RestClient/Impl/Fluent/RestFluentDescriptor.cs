@@ -175,7 +175,9 @@ namespace Jal.RestClient.Impl.Fluent
             }
 
             _context.Request.ContentType = contentType;
+
             _context.Request.CharacterSet = characterSet;
+
             _context.Request.Content = converter(data);
             return this;
 
@@ -199,8 +201,11 @@ namespace Jal.RestClient.Impl.Fluent
             }
 
             _context.Request.ContentType = contentType;
+
             _context.Request.CharacterSet = characterSet;
+
             _context.Request.Content = data;
+
             return this;
         }
 
@@ -211,12 +216,14 @@ namespace Jal.RestClient.Impl.Fluent
                 if (_context.QueryParameter != null)
                 {
                     var queryParemeterDescriptor = new QueryParameterDescriptor(_context.Request);
+
                     _context.QueryParameter(queryParemeterDescriptor);
                 }
 
                 if (_context.Header != null)
                 {
                     var headerDescriptor = new HeaderDescriptor(_context.Request);
+
                     _context.Header(headerDescriptor);
                 }
 
@@ -237,12 +244,14 @@ namespace Jal.RestClient.Impl.Fluent
             if (_context.QueryParameter != null)
             {
                 var queryParemeterDescriptor = new QueryParameterDescriptor(_context.Request);
+
                 _context.QueryParameter(queryParemeterDescriptor);
             }
 
             if (_context.Header != null)
             {
                 var headerDescriptor = new HeaderDescriptor(_context.Request);
+
                 _context.Header(headerDescriptor);
             }
 
