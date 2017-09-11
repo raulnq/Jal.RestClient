@@ -10,9 +10,9 @@ namespace Jal.RestClient.Model
     {
         public HttpRequest Request { get; set; }
 
-        public Action<IQueryParameterDescriptor> QueryParameter { get; set; }
+        public Action<IHttpQueryParameterDescriptor> QueryParameter { get; set; }
 
-        public Action<IHeaderDescriptor> Header { get; set; }
+        public Action<IHttpHeaderDescriptor> Header { get; set; }
 
         public Action<HttpRequest> Authenticator { get; set; }
 

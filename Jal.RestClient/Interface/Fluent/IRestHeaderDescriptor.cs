@@ -5,6 +5,6 @@ namespace Jal.RestClient.Interface.Fluent
 {
     public interface IRestHeaderDescriptor : IRestTimeoutDescriptor
     {
-        IRestTimeoutDescriptor WithHeader(Action<IHeaderDescriptor> headerDescriptorAction);
+        IRestTimeoutDescriptor WithHeader(Action<IHttpHeaderDescriptor> headerDescriptorAction);
     }
 }

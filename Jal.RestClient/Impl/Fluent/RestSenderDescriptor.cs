@@ -29,13 +29,13 @@ namespace Jal.RestClient.Impl.Fluent
             {
                 if (_context.QueryParameter != null)
                 {
-                    var queryParemeterDescriptor = new QueryParameterDescriptor(_context.Request);
+                    var queryParemeterDescriptor = new HttpQueryParameterDescriptor(_context.Request);
                     _context.QueryParameter(queryParemeterDescriptor);
                 }
 
                 if (_context.Header != null)
                 {
-                    var headerDescriptor = new HeaderDescriptor(_context.Request);
+                    var headerDescriptor = new HttpHeaderDescriptor(_context.Request);
                     _context.Header(headerDescriptor);
                 }
 
@@ -58,13 +58,13 @@ namespace Jal.RestClient.Impl.Fluent
         {
             if (_context.QueryParameter != null)
             {
-                var queryParemeterDescriptor = new QueryParameterDescriptor(_context.Request);
+                var queryParemeterDescriptor = new HttpQueryParameterDescriptor(_context.Request);
                 _context.QueryParameter(queryParemeterDescriptor);
             }
 
             if (_context.Header != null)
             {
-                var headerDescriptor = new HeaderDescriptor(_context.Request);
+                var headerDescriptor = new HttpHeaderDescriptor(_context.Request);
                 _context.Header(headerDescriptor);
             }
 

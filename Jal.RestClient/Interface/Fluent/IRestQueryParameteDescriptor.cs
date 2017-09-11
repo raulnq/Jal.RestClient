@@ -5,7 +5,7 @@ namespace Jal.RestClient.Interface.Fluent
 {
     public interface IRestQueryParameteDescriptor : IRestVerbDescriptor
     {
-        IRestVerbDescriptor WithQueryParameter(Action<IQueryParameterDescriptor> queryParemeterDescriptorAction);
+        IRestVerbDescriptor WithQueryParameter(Action<IHttpQueryParameterDescriptor> queryParemeterDescriptorAction);
 
     }
 }
