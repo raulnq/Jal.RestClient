@@ -157,7 +157,7 @@ namespace Jal.RestClient.Impl.Fluent
             return new RestSenderDescriptor<T>(_context, _handler, converter);
         }
 
-        public IRestMapDescriptor Data<TBody>(TBody data, Func<TBody, string> converter, string contentType = "application/json", string characterSet = "charset=UTF-8")
+        public IRestMapDescriptor Data<TBody>(TBody data, Func<TBody, string> converter, string contentType = "application/json", string characterSet = "charset=utf-8")
         {
             if (converter == null)
             {
@@ -176,7 +176,7 @@ namespace Jal.RestClient.Impl.Fluent
 
            var content = converter(data);
 
-            _context.Request.Content = new HttpStringContent(content)
+            _context.Request.Content = new HttpRequestStringContent(content)
             {
                 ContentType = contentType,
                 CharacterSet = characterSet
@@ -186,7 +186,7 @@ namespace Jal.RestClient.Impl.Fluent
 
         }
 
-        public IRestMapDescriptor Data(string data, string contentType = "application/json", string characterSet = "charset=UTF-8")
+        public IRestMapDescriptor Data(string data, string contentType = "application/json", string characterSet = "charset=utf-8")
         {
             if (string.IsNullOrWhiteSpace(data))
             {
@@ -203,7 +203,7 @@ namespace Jal.RestClient.Impl.Fluent
                 throw new ArgumentNullException(nameof(contentType));
             }
 
-            _context.Request.Content = new HttpStringContent(data)
+            _context.Request.Content = new HttpRequestStringContent(data)
             {
                 ContentType = contentType,
                 CharacterSet = characterSet

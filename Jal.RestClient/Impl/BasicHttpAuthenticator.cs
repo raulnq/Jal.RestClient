@@ -25,7 +25,7 @@ namespace Jal.RestClient.Impl
             {
                 httpRequest.Headers.Remove(item);
             }
-            httpRequest.Headers.Add(new HttpHeader() { Value = $"{"Basic"} {Convert.ToBase64String(Encoding.UTF8.GetBytes(_user + ":" + _password))}", Name = "Authorization" });
+            httpRequest.Headers.Add(new HttpHeader("Authorization", $"{"Basic"} {Convert.ToBase64String(Encoding.UTF8.GetBytes(_user + ":" + _password))}"));
         }
     }
 }

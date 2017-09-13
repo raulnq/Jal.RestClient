@@ -23,7 +23,7 @@ namespace Jal.RestClient.Impl
             {
                 httpRequest.Headers.Remove(item);
             }
-            httpRequest.Headers.Add(new HttpHeader() { Value = $"{_type} {_token}", Name = "Authorization" });
+            httpRequest.Headers.Add(new HttpHeader("Authorization", $"{_type} {_token}"));
         }
     }
 }
