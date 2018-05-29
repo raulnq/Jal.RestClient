@@ -1,86 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D34C78BA-8E63-4DC2-B4A2-DF52AB081F49}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Jal.RestClient</RootNamespace>
-    <AssemblyName>Jal.RestClient</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <Authors>Raul Naupari</Authors>
+    <Version>1.6.0</Version>
+    <Company>Raul Naupari</Company>
+    <Description>Just another library to call REST web services</Description>
+    <Copyright />
+    <PackageLicenseUrl>http://www.apache.org/licenses/LICENSE-2.0</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/raulnq/Jal.RestClient</PackageProjectUrl>
+    <RepositoryUrl></RepositoryUrl>
+    <PackageTags />
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Jal.HttpClient, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.HttpClient.2.0.1\lib\net45\Jal.HttpClient.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Jal.HttpClient" Version="2.1.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Impl\Fluent\RestFluentHandlerBuilder.cs" />
-    <Compile Include="Interface\Fluent\IRestFluentHandlerEndBuilder.cs" />
-    <Compile Include="Interface\Fluent\IRestFluentHandlerStartBuilder.cs" />
-    <Compile Include="Impl\Fluent\RestFluentDescriptorExtensions.cs" />
-    <Compile Include="Impl\Fluent\RestFluentHandler.cs" />
-    <Compile Include="Impl\Fluent\RestSenderDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestContentDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestQueryParameteDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestAuthenticatorDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestFluentHandler.cs" />
-    <Compile Include="Interface\Fluent\IRestHeaderDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestMapDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestResourceDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestSenderDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestTimeoutDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestVerbDescriptor.cs" />
-    <Compile Include="Interface\Fluent\IRestWhenDescriptor.cs" />
-    <Compile Include="Impl\Fluent\RestFluentDescriptor.cs" />
-    <Compile Include="Impl\BasicHttpAuthenticator.cs" />
-    <Compile Include="Impl\TokenAuthenticator.cs" />
-    <Compile Include="Interface\IAuthenticator.cs" />
-    <Compile Include="Model\DescriptorContext.cs" />
-    <Compile Include="Model\RestResponse.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Jal.RestClient.nuspec" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  
 </Project>

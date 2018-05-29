@@ -1,16 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jal.RestClient", "Jal.RestClient\Jal.RestClient.csproj", "{D34C78BA-8E63-4DC2-B4A2-DF52AB081F49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jal.RestClient.Installer", "Jal.RestClient.Installer\Jal.RestClient.Installer.csproj", "{FD83BEB1-0C1D-4599-9C58-70726911FF90}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{213669F3-AEBF-487C-B753-6BC9874F39F4}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\packages.config = .nuget\packages.config
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jal.RestClient.Tests", "Jal.RestClient.Tests\Jal.RestClient.Tests.csproj", "{AE7BA0AC-3396-4C72-A212-6F57AD563333}"
 EndProject
@@ -52,5 +47,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A42428B-3290-4D1D-8CF6-C992E5CD275C}
 	EndGlobalSection
 EndGlobal
