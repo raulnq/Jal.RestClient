@@ -16,7 +16,7 @@ namespace Jal.RestClient.Model
 
         public Action<HttpRequest> Authenticator { get; set; }
 
-        public HttpStatusCode Code { get; set; }
+        public HttpStatusCode? Code { get; set; }
 
     }
 }

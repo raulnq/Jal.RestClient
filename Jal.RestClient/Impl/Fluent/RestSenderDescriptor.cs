@@ -45,7 +45,7 @@ namespace Jal.RestClient.Impl.Fluent
 
                 var content = response?.Content?.Read();
 
-                var result = !string.IsNullOrEmpty(content) && _context.Code == response.HttpStatusCode  ? _converter(content) : default(T);
+                var result = !string.IsNullOrEmpty(content) && (_context.Code == null || _context.Code == response.HttpStatusCode)  ? _converter(content) : default(T);
 
                 return new RestResponse<T>
                        {
@@ -54,6 +54,13 @@ namespace Jal.RestClient.Impl.Fluent
                            Data = result
                        };
             }
+        }
+
+        public IRestSenderDescriptor<T> Always()
+        {
+            _context.Code = null;
+
+            return this;
         }
 
         public async Task<RestResponse<T>> SendAsync()
@@ -76,7 +83,7 @@ namespace Jal.RestClient.Impl.Fluent
 
             var content = response?.Content?.Read();
 
-            var result = !string.IsNullOrEmpty(content) && _context.Code == response.HttpStatusCode ? _converter(content) : default(T);
+            var result = !string.IsNullOrEmpty(content) && (_context.Code == null || _context.Code == response.HttpStatusCode) ? _converter(content) : default(T);
 
             return new RestResponse<T>
                    {

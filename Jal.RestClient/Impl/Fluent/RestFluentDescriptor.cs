@@ -93,7 +93,7 @@ namespace Jal.RestClient.Impl.Fluent
             get
             {
                 _context.Request.HttpMethod = HttpMethod.Delete;
-                _context.Code = HttpStatusCode.OK;
+                _context.Code = HttpStatusCode.NoContent;
                 return this;
             }
         }
@@ -113,7 +113,7 @@ namespace Jal.RestClient.Impl.Fluent
             get
             {
                 _context.Request.HttpMethod = HttpMethod.Put;
-                _context.Code = HttpStatusCode.OK;
+                _context.Code = HttpStatusCode.NoContent;
                 return this;
             }
         }
@@ -123,7 +123,7 @@ namespace Jal.RestClient.Impl.Fluent
             get
             {
                 _context.Request.HttpMethod = HttpMethod.Patch;
-                _context.Code = HttpStatusCode.OK;
+                _context.Code = HttpStatusCode.NoContent;
                 return this;
             }
         }
