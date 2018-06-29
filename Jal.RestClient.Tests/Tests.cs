@@ -115,7 +115,7 @@ namespace Jal.RestClient.Tests
         {
             var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1};
 
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Put.Data(post).MapTo<Customer>().Send)
+            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Put.Data(post).MapTo<Customer>().When(HttpStatusCode.OK).Send)
             {
                 response.ShouldNotBeNull();
 
@@ -128,7 +128,7 @@ namespace Jal.RestClient.Tests
         {
             var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1 };
 
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").WithTimeout(10000).Path("posts/1").Patch.Data(post).MapTo<Customer>().Send)
+            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").WithTimeout(10000).Path("posts/1").Patch.Data(post).MapTo<Customer>().When(HttpStatusCode.OK).Send)
             {
                 response.ShouldNotBeNull();
 
