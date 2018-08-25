@@ -18,7 +18,7 @@ namespace Jal.RestClient.Impl.Fluent
             _handler = handler;
         }
 
-        public IRestAuthenticatorDescriptor Url(string url)
+        public IRestMiddlewareDescriptor Url(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
             {

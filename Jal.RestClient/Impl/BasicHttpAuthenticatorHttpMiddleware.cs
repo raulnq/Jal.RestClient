@@ -1,18 +1,20 @@
 using System;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using Jal.HttpClient.Interface;
 using Jal.HttpClient.Model;
 using Jal.RestClient.Interface;
 
 namespace Jal.RestClient.Impl
 {
-    public class BasicHttpAuthenticator : IAuthenticator
+    public class BasicHttpAuthenticatorHttpMiddleware : IHttpMiddleware
     {
         private readonly string _user;
 
         private readonly string _password;
 
-        public BasicHttpAuthenticator(string user, string password)
+        public BasicHttpAuthenticatorHttpMiddleware(string user, string password)
         {
             _user = user;
             _password = password;
@@ -26,6 +28,16 @@ namespace Jal.RestClient.Impl
                 httpRequest.Headers.Remove(item);
             }
             httpRequest.Headers.Add(new HttpHeader("Authorization", $"{"Basic"} {Convert.ToBase64String(Encoding.UTF8.GetBytes(_user + ":" + _password))}"));
+        }
+
+        public HttpResponse Send(HttpRequest request, Func<HttpResponse> next)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<HttpResponse> SendAsync(HttpRequest request, Func<Task<HttpResponse>> next)
+        {
+            throw new NotImplementedException();
         }
     }
 }

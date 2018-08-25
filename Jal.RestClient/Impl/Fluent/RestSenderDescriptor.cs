@@ -39,7 +39,12 @@ namespace Jal.RestClient.Impl.Fluent
                     _context.Header(headerDescriptor);
                 }
 
-                _context.Authenticator?.Invoke(_context.Request);
+                if (_context.Middleware != null)
+                {
+                    var middlewareDescriptor = new HttpMiddlewareDescriptor(_context.Request);
+
+                    _context.Middleware(middlewareDescriptor);
+                }
 
                 var response = _handler.Send(_context.Request);
 
@@ -77,7 +82,12 @@ namespace Jal.RestClient.Impl.Fluent
                 _context.Header(headerDescriptor);
             }
 
-            _context.Authenticator?.Invoke(_context.Request);
+            if (_context.Middleware != null)
+            {
+                var middlewareDescriptor = new HttpMiddlewareDescriptor(_context.Request);
+
+                _context.Middleware(middlewareDescriptor);
+            }
 
             var response = await _handler.SendAsync(_context.Request);
 

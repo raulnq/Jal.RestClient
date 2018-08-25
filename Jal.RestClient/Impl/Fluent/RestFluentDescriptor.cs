@@ -11,7 +11,7 @@ using Jal.RestClient.Model;
 namespace Jal.RestClient.Impl.Fluent
 {
 
-    public class RestFluentDescriptor : IRestAuthenticatorDescriptor, IRestQueryParameteDescriptor, IRestMapDescriptor, IRestContentDescriptor
+    public class RestFluentDescriptor : IRestMiddlewareDescriptor, IRestQueryParameteDescriptor, IRestMapDescriptor, IRestContentDescriptor
     {
         private readonly IHttpHandler _handler;
 
@@ -66,14 +66,14 @@ namespace Jal.RestClient.Impl.Fluent
             return this;
         }
 
-        public IRestHeaderDescriptor AuthorizedBy(Action<HttpRequest> authenticator)
+        public IRestHeaderDescriptor WithMiddlewares(Action<IHttpMiddlewareDescriptor> middlewareDescriptorAction)
         {
-            if (authenticator == null)
+            if (middlewareDescriptorAction == null)
             {
-                throw new ArgumentNullException(nameof(authenticator));
+                throw new ArgumentNullException(nameof(middlewareDescriptorAction));
             }
 
-            _context.Authenticator = authenticator;
+            _context.Middleware = middlewareDescriptorAction;
 
             return this;
         }
@@ -230,7 +230,12 @@ namespace Jal.RestClient.Impl.Fluent
                     _context.Header(headerDescriptor);
                 }
 
-                _context.Authenticator?.Invoke(_context.Request);
+                if (_context.Middleware != null)
+                {
+                    var middlewareDescriptor = new HttpMiddlewareDescriptor(_context.Request);
+
+                    _context.Middleware(middlewareDescriptor);
+                }
 
                 var response = _handler.Send(_context.Request);
 
@@ -258,7 +263,13 @@ namespace Jal.RestClient.Impl.Fluent
                 _context.Header(headerDescriptor);
             }
 
-            _context.Authenticator?.Invoke(_context.Request);
+
+            if (_context.Middleware != null)
+            {
+                var middlewareDescriptor = new HttpMiddlewareDescriptor(_context.Request);
+
+                _context.Middleware(middlewareDescriptor);
+            }
 
             var response = await _handler.SendAsync(_context.Request);
 

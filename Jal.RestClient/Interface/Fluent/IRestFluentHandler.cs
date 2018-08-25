@@ -2,6 +2,6 @@
 {
     public interface IRestFluentHandler
     {
-        IRestAuthenticatorDescriptor Url(string url);
+        IRestMiddlewareDescriptor Url(string url);
     }
 }

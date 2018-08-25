@@ -14,7 +14,7 @@ namespace Jal.RestClient.Model
 
         public Action<IHttpHeaderDescriptor> Header { get; set; }
 
-        public Action<HttpRequest> Authenticator { get; set; }
+        public Action<IHttpMiddlewareDescriptor> Middleware { get; set; }
 
         public HttpStatusCode? Code { get; set; }
 
