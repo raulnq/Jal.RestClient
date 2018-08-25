@@ -7,24 +7,21 @@ namespace Jal.RestClient.Impl.Fluent
     {
         public static IRestHeaderDescriptor AuthorizedByBearerToken(this IRestMiddlewareDescriptor descriptor, string token)
         {
-            //var auth = new TokenAuthenticator(token, "Bearer");
-
-            return descriptor.WithMiddlewares(x => x.Add<TokenAuthenticatorHttpMiddleware>());
+            descriptor.WithContext(x => { x.Add("token", token); x.Add("tokentype", "Bearer"); });
+            return descriptor.WithMiddleware(x => x.Add<TokenAuthenticatorHttpMiddleware>());
         }
 
 
         public static IRestHeaderDescriptor AuthorizedByToken(this IRestMiddlewareDescriptor descriptor, string token, string type)
         {
-            //var auth = new TokenAuthenticator(token, type);
-
-            return descriptor.WithMiddlewares(x => x.Add<TokenAuthenticatorHttpMiddleware>());
+            descriptor.WithContext(x => { x.Add("token", token); x.Add("tokentype", type); });
+            return descriptor.WithMiddleware(x => x.Add<TokenAuthenticatorHttpMiddleware>());
         }
 
         public static IRestHeaderDescriptor AuthorizedByBasicHttp(this IRestMiddlewareDescriptor descriptor, string user, string password)
         {
-            //var auth = new BasicHttpAuthenticator(user, password);
-
-            return descriptor.WithMiddlewares(x => x.Add<BasicHttpAuthenticatorHttpMiddleware>());
+            descriptor.WithContext(x => { x.Add("user", user); x.Add("password", password); });
+            return descriptor.WithMiddleware(x => x.Add<BasicHttpAuthenticatorHttpMiddleware>());
         }
 
         public static IRestMapDescriptor FormUrlEncodedData(this IRestContentDescriptor descriptor, string data)

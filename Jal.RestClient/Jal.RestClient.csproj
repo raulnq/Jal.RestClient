@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
     <Authors>Raul Naupari</Authors>
-    <Version>1.6.1</Version>
+    <Version>1.6.2</Version>
     <Company>Raul Naupari</Company>
     <Description>Just another library to call REST web services</Description>
     <Copyright />
@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jal.HttpClient" Version="2.1.1" />
+    <PackageReference Include="Jal.HttpClient" Version="2.1.2" />
   </ItemGroup>
   
 </Project>

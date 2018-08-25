@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Jal.HttpClient.Impl.Fluent;
 using Jal.HttpClient.Interface;
+using Jal.HttpClient.Model;
 using Jal.RestClient.Interface.Fluent;
 using Jal.RestClient.Model;
 
@@ -23,10 +24,8 @@ namespace Jal.RestClient.Impl.Fluent
             _converter = converter;
         }
 
-        public RestResponse<T> Send
+        public RestResponse<T> Send(HttpIdentity httpIdentity= null)
         {
-            get
-            {
                 if (_context.QueryParameter != null)
                 {
                     var queryParemeterDescriptor = new HttpQueryParameterDescriptor(_context.Request);
@@ -46,7 +45,19 @@ namespace Jal.RestClient.Impl.Fluent
                     _context.Middleware(middlewareDescriptor);
                 }
 
-                var response = _handler.Send(_context.Request);
+                if (_context.Data != null)
+                {
+                    var dataDescriptor = new HttpDataDescriptor(_context.Request);
+
+                    _context.Data(dataDescriptor);
+                }
+
+            if (httpIdentity != null)
+            {
+                _context.Request.Identity = httpIdentity;
+            }
+
+            var response = _handler.Send(_context.Request);
 
                 var content = response?.Content?.Read();
 
@@ -58,7 +69,6 @@ namespace Jal.RestClient.Impl.Fluent
                            HttpResquest = _context.Request,
                            Data = result
                        };
-            }
         }
 
         public IRestSenderDescriptor<T> Always()
@@ -68,7 +78,7 @@ namespace Jal.RestClient.Impl.Fluent
             return this;
         }
 
-        public async Task<RestResponse<T>> SendAsync()
+        public async Task<RestResponse<T>> SendAsync(HttpIdentity httpIdentity = null)
         {
             if (_context.QueryParameter != null)
             {
@@ -87,6 +97,18 @@ namespace Jal.RestClient.Impl.Fluent
                 var middlewareDescriptor = new HttpMiddlewareDescriptor(_context.Request);
 
                 _context.Middleware(middlewareDescriptor);
+            }
+
+            if (_context.Data != null)
+            {
+                var dataDescriptor = new HttpDataDescriptor(_context.Request);
+
+                _context.Data(dataDescriptor);
+            }
+
+            if(httpIdentity!=null)
+            {
+                _context.Request.Identity = httpIdentity;
             }
 
             var response = await _handler.SendAsync(_context.Request);

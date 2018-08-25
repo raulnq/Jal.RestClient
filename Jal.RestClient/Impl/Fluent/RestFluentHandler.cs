@@ -9,7 +9,10 @@ namespace Jal.RestClient.Impl.Fluent
     {
         public static IRestFluentHandler Current;
 
-        public static IRestFluentHandlerStartBuilder Builder => new RestFluentHandlerBuilder();
+        public static IRestFluentHandler Create(IHttpHandler handler)
+        {
+            return new RestFluentHandler(handler);
+        }
 
         private readonly IHttpHandler _handler;
 

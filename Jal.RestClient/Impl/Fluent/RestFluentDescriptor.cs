@@ -66,7 +66,7 @@ namespace Jal.RestClient.Impl.Fluent
             return this;
         }
 
-        public IRestHeaderDescriptor WithMiddlewares(Action<IHttpMiddlewareDescriptor> middlewareDescriptorAction)
+        public IRestHeaderDescriptor WithMiddleware(Action<IHttpMiddlewareDescriptor> middlewareDescriptorAction)
         {
             if (middlewareDescriptorAction == null)
             {
@@ -212,10 +212,8 @@ namespace Jal.RestClient.Impl.Fluent
             return this;
         }
 
-        public RestResponse Send
+        public RestResponse Send(HttpIdentity httpIdentity = null)
         {
-            get
-            {
                 if (_context.QueryParameter != null)
                 {
                     var queryParemeterDescriptor = new HttpQueryParameterDescriptor(_context.Request);
@@ -237,6 +235,20 @@ namespace Jal.RestClient.Impl.Fluent
                     _context.Middleware(middlewareDescriptor);
                 }
 
+
+
+                if (_context.Data != null)
+                {
+                    var dataDescriptor = new HttpDataDescriptor(_context.Request);
+
+                    _context.Data(dataDescriptor);
+                }
+
+                if (httpIdentity != null)
+                {
+                    _context.Request.Identity = httpIdentity;
+                }
+
                 var response = _handler.Send(_context.Request);
 
                 return new RestResponse
@@ -244,10 +256,9 @@ namespace Jal.RestClient.Impl.Fluent
                     HttpResponse = response,
                     HttpResquest = _context.Request,
                 };
-            }
         }
 
-        public async Task<RestResponse> SendAsync()
+        public async Task<RestResponse> SendAsync(HttpIdentity httpIdentity = null)
         {
             if (_context.QueryParameter != null)
             {
@@ -271,6 +282,18 @@ namespace Jal.RestClient.Impl.Fluent
                 _context.Middleware(middlewareDescriptor);
             }
 
+            if (_context.Data != null)
+            {
+                var dataDescriptor = new HttpDataDescriptor(_context.Request);
+
+                _context.Data(dataDescriptor);
+            }
+
+            if (httpIdentity != null)
+            {
+                _context.Request.Identity = httpIdentity;
+            }
+
             var response = await _handler.SendAsync(_context.Request);
 
             return new RestResponse
@@ -278,6 +301,18 @@ namespace Jal.RestClient.Impl.Fluent
                 HttpResponse = response,
                 HttpResquest = _context.Request,
             };
+        }
+
+        public IRestHeaderDescriptor WithContext(Action<IHttpDataDescriptor> dataDescriptorAction)
+        {
+            if (dataDescriptorAction == null)
+            {
+                throw new ArgumentNullException(nameof(dataDescriptorAction));
+            }
+
+            _context.Data = dataDescriptorAction;
+
+            return this;
         }
     }
 }

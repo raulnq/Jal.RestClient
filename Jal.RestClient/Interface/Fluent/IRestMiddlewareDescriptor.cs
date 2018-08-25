@@ -5,6 +5,8 @@ namespace Jal.RestClient.Interface.Fluent
 {
     public interface IRestMiddlewareDescriptor : IRestHeaderDescriptor
     {
-        IRestHeaderDescriptor WithMiddlewares(Action<IHttpMiddlewareDescriptor> action);
+        IRestHeaderDescriptor WithMiddleware(Action<IHttpMiddlewareDescriptor> action);
+
+        IRestHeaderDescriptor WithContext(Action<IHttpDataDescriptor> action);
     }
 }
