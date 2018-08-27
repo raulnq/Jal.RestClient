@@ -235,15 +235,6 @@ namespace Jal.RestClient.Impl.Fluent
                     _context.Middleware(middlewareDescriptor);
                 }
 
-
-
-                if (_context.Data != null)
-                {
-                    var dataDescriptor = new HttpDataDescriptor(_context.Request);
-
-                    _context.Data(dataDescriptor);
-                }
-
                 if (httpIdentity != null)
                 {
                     _context.Request.Identity = httpIdentity;
@@ -282,13 +273,6 @@ namespace Jal.RestClient.Impl.Fluent
                 _context.Middleware(middlewareDescriptor);
             }
 
-            if (_context.Data != null)
-            {
-                var dataDescriptor = new HttpDataDescriptor(_context.Request);
-
-                _context.Data(dataDescriptor);
-            }
-
             if (httpIdentity != null)
             {
                 _context.Request.Identity = httpIdentity;
@@ -301,18 +285,6 @@ namespace Jal.RestClient.Impl.Fluent
                 HttpResponse = response,
                 HttpResquest = _context.Request,
             };
-        }
-
-        public IRestHeaderDescriptor WithContext(Action<IHttpDataDescriptor> dataDescriptorAction)
-        {
-            if (dataDescriptorAction == null)
-            {
-                throw new ArgumentNullException(nameof(dataDescriptorAction));
-            }
-
-            _context.Data = dataDescriptorAction;
-
-            return this;
         }
     }
 }

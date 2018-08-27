@@ -45,12 +45,6 @@ namespace Jal.RestClient.Impl.Fluent
                     _context.Middleware(middlewareDescriptor);
                 }
 
-                if (_context.Data != null)
-                {
-                    var dataDescriptor = new HttpDataDescriptor(_context.Request);
-
-                    _context.Data(dataDescriptor);
-                }
 
             if (httpIdentity != null)
             {
@@ -97,13 +91,6 @@ namespace Jal.RestClient.Impl.Fluent
                 var middlewareDescriptor = new HttpMiddlewareDescriptor(_context.Request);
 
                 _context.Middleware(middlewareDescriptor);
-            }
-
-            if (_context.Data != null)
-            {
-                var dataDescriptor = new HttpDataDescriptor(_context.Request);
-
-                _context.Data(dataDescriptor);
             }
 
             if(httpIdentity!=null)

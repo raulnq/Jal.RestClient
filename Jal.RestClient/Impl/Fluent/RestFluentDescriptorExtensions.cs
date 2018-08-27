@@ -1,27 +1,25 @@
 ﻿using System;
+using Jal.HttpClient.Interface.Fluent;
 using Jal.RestClient.Interface.Fluent;
 
 namespace Jal.RestClient.Impl.Fluent
 {
     public static class RestFluentDescriptorExtensions
     {
-        public static IRestHeaderDescriptor AuthorizedByBearerToken(this IRestMiddlewareDescriptor descriptor, string token)
+        public static void AuthorizedByBearerToken(this IHttpMiddlewareDescriptor descriptor, string tokenvalue)
         {
-            descriptor.WithContext(x => { x.Add("token", token); x.Add("tokentype", "Bearer"); });
-            return descriptor.WithMiddleware(x => x.Add<TokenAuthenticatorHttpMiddleware>());
+            descriptor.Add<TokenAuthenticatorHttpMiddleware>(y => { y.Add("tokenvalue", tokenvalue); y.Add("tokentype", "Bearer"); });
         }
 
 
-        public static IRestHeaderDescriptor AuthorizedByToken(this IRestMiddlewareDescriptor descriptor, string token, string type)
+        public static void AuthorizedByToken(this IHttpMiddlewareDescriptor descriptor, string tokenvalue, string tokentype)
         {
-            descriptor.WithContext(x => { x.Add("token", token); x.Add("tokentype", type); });
-            return descriptor.WithMiddleware(x => x.Add<TokenAuthenticatorHttpMiddleware>());
+            descriptor.Add<TokenAuthenticatorHttpMiddleware>(y => { y.Add("tokenvalue", tokenvalue); y.Add("tokentype", tokentype); });
         }
 
-        public static IRestHeaderDescriptor AuthorizedByBasicHttp(this IRestMiddlewareDescriptor descriptor, string user, string password)
+        public static void AuthorizedByBasicHttp(this IHttpMiddlewareDescriptor descriptor, string username, string password)
         {
-            descriptor.WithContext(x => { x.Add("user", user); x.Add("password", password); });
-            return descriptor.WithMiddleware(x => x.Add<BasicHttpAuthenticatorHttpMiddleware>());
+            descriptor.Add<BasicHttpAuthenticatorHttpMiddleware>(y => { y.Add("username", username); y.Add("password", password); });
         }
 
         public static IRestMapDescriptor FormUrlEncodedData(this IRestContentDescriptor descriptor, string data)

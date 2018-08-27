@@ -57,7 +57,7 @@ namespace Jal.RestClient.Tests
         [Test]
         public void Get_WithAuthenticator_ShouldNotBeNull()
         {
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").AuthorizedByBasicHttp("xxx", "yyy").Path("posts/1").Get.MapTo<Customer>().Send())
+            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").WithMiddleware(x=>x.AuthorizedByBasicHttp("xxx", "yyy")).Path("posts/1").Get.MapTo<Customer>().Send())
             {
                 response.ShouldNotBeNull();
 
@@ -163,7 +163,7 @@ namespace Jal.RestClient.Tests
 
             using (var token = _restFluentHandler.Url("https://login.microsoftonline.com").Path("dd5d5cfe-d892-4892-b623-1134653cc289/oauth2/token").Post.Data(body, "application/x-www-form-urlencoded").MapTo<AccessToken>().When(HttpStatusCode.OK).Send())
             {
-                using (var response = _restFluentHandler.Url("http://cuy-api-qa.cignium-cuy-qa-ase.p.azurewebsites.net").AuthorizedByBearerToken(token.Data.Access_Token).Path("api/v1/campaigns/1").Get.MapTo<Campaign>().Send())
+                using (var response = _restFluentHandler.Url("http://cuy-api-qa.cignium-cuy-qa-ase.p.azurewebsites.net").WithMiddleware(x=>x.AuthorizedByBearerToken(token.Data.Access_Token)).Path("api/v1/campaigns/1").Get.MapTo<Campaign>().Send())
                 {
                     response.ShouldNotBeNull();
                 } 

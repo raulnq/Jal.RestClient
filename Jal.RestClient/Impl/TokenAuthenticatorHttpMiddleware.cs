@@ -23,7 +23,7 @@ namespace Jal.RestClient.Impl
                 request.Headers.Remove(item);
             }
 
-            var token = request.Data["token"];
+            var token = request.Data["tokenvalue"];
 
             var type = request.Data["tokentype"];
 

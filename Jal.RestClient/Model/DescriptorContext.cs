@@ -16,8 +16,6 @@ namespace Jal.RestClient.Model
 
         public Action<IHttpMiddlewareDescriptor> Middleware { get; set; }
 
-        public Action<IHttpDataDescriptor> Data { get; set; }
-
         public HttpStatusCode? Code { get; set; }
 
     }
