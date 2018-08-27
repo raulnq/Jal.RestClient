@@ -4,6 +4,7 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Common.Logging;
+using Jal.HttpClient.Impl.Fluent;
 using Jal.HttpClient.Installer;
 using Jal.HttpClient.Logger;
 using Jal.HttpClient.Logger.Installer;

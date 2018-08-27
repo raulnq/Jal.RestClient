@@ -11,8 +11,6 @@ namespace Jal.RestClient.LightInject.Installer
         public void Compose(IServiceRegistry serviceRegistry)
         {
             serviceRegistry.Register<IRestFluentHandler, RestFluentHandler>( new PerContainerLifetime());
-            serviceRegistry.Register<IHttpMiddleware, BasicHttpAuthenticatorHttpMiddleware>(typeof(BasicHttpAuthenticatorHttpMiddleware).FullName, new PerContainerLifetime());
-            serviceRegistry.Register<IHttpMiddleware, TokenAuthenticatorHttpMiddleware>(typeof(TokenAuthenticatorHttpMiddleware).FullName, new PerContainerLifetime());
         }
     }
 }

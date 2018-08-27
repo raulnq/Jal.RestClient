@@ -14,8 +14,6 @@ namespace Jal.RestClient.Installer
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(Component.For<IRestFluentHandler>().ImplementedBy<RestFluentHandler>());
-            container.Register(Component.For<IHttpMiddleware>().ImplementedBy<BasicHttpAuthenticatorHttpMiddleware>().Named(typeof(BasicHttpAuthenticatorHttpMiddleware).FullName));
-            container.Register(Component.For<IHttpMiddleware>().ImplementedBy<TokenAuthenticatorHttpMiddleware>().Named(typeof(TokenAuthenticatorHttpMiddleware).FullName));
         }
     }
 }
