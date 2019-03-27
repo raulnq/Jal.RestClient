@@ -24,18 +24,16 @@ Use the Json serializer extension methods Jal.RestClient.Json
 
 Send requests to https://jsonplaceholder.typicode.com
 
-    var response= _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Get.MapTo<Post>().Send;
+    var response= await _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Get.MapTo<Post>().SendAsync();
 
-    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts").WithQueryParameter(x=>x.Add("userId","1")).Get.MapTo<Post[]>().Send;
+    var response = await _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts").WithQueryParameter(x=>x.Add("userId","1")).Get.MapTo<Post[]>().SendAsync();
 
     var post = new Customer() {Body = "", Title = "", UserId = 2};
 
-    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts").Post.Data(post).MapTo<Post>().Send;
+    var response = await _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts").Post.Data(post).MapTo<Post>().SendAsync();
 
     var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1};
 
-    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Put.Data(post).MapTo<Post>().Send;
+    var response = await _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Put.Data(post).MapTo<Post>().SendAsync();
 
-    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Delete.Send;
-
-    var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").AuthorizedByBasicHttp("user","password").Path("posts/1").Get.MapTo<Post>().Send;
+    var response = await _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Delete.SendAsync();

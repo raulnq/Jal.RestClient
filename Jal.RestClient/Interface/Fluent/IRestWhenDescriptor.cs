@@ -4,7 +4,7 @@ namespace Jal.RestClient.Interface.Fluent
 {
     public interface IRestWhenDescriptor<T> : IRestSenderDescriptor<T>
     {
-        IRestSenderDescriptor<T> When(HttpStatusCode httpStatusCode);
+        IRestSenderDescriptor<T> When(HttpStatusCode statuscode);
 
         IRestSenderDescriptor<T> Always();
     }

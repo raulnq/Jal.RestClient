@@ -12,7 +12,7 @@ using Jal.RestClient.Model;
 namespace Jal.RestClient.Impl.Fluent
 {
 
-    public class RestFluentDescriptor : IRestMiddlewareDescriptor, IRestQueryParameteDescriptor, IRestMapDescriptor, IRestContentDescriptor
+    public class RestFluentDescriptor : IRestResourceDescriptor, IRestMiddlewareDescriptor, IRestQueryParameteDescriptor, IRestMapDescriptor, IRestContentDescriptor
     {
         private readonly IHttpHandler _handler;
 
@@ -41,40 +41,16 @@ namespace Jal.RestClient.Impl.Fluent
             return this;
         }
 
-        public IRestResourceDescriptor WithTimeout(int timeout)
+        public IRestResourceDescriptor WithHeader(Action<IHttpHeaderDescriptor> action)
         {
-            if (timeout < 0)
-            {
-                throw new ArgumentNullException(nameof(timeout));
-            }
-
-            _context.Request.Timeout = timeout;
+            _context.Header = action ?? throw new ArgumentNullException(nameof(action));
 
             return this;
         }
 
-
-        public IRestTimeoutDescriptor WithHeader(Action<IHttpHeaderDescriptor> headerDescriptorAction)
+        public IRestHeaderDescriptor WithMiddleware(Action<IHttpMiddlewareDescriptor> action)
         {
-
-            if (headerDescriptorAction == null)
-            {
-                throw new ArgumentNullException(nameof(headerDescriptorAction));
-            }
-
-            _context.Header = headerDescriptorAction;
-
-            return this;
-        }
-
-        public IRestHeaderDescriptor WithMiddleware(Action<IHttpMiddlewareDescriptor> middlewareDescriptorAction)
-        {
-            if (middlewareDescriptorAction == null)
-            {
-                throw new ArgumentNullException(nameof(middlewareDescriptorAction));
-            }
-
-            _context.Middleware = middlewareDescriptorAction;
+            _context.Middleware = action ?? throw new ArgumentNullException(nameof(action));
 
             return this;
         }
@@ -84,7 +60,7 @@ namespace Jal.RestClient.Impl.Fluent
             get
             {
                 _context.Request.Message.Method = HttpMethod.Get;
-                _context.Code = HttpStatusCode.OK;
+                _context.StatusCode = HttpStatusCode.OK;
                 return this;
             }
         }
@@ -94,7 +70,7 @@ namespace Jal.RestClient.Impl.Fluent
             get
             {
                 _context.Request.Message.Method = HttpMethod.Delete;
-                _context.Code = HttpStatusCode.NoContent;
+                _context.StatusCode = HttpStatusCode.NoContent;
                 return this;
             }
         }
@@ -104,7 +80,7 @@ namespace Jal.RestClient.Impl.Fluent
             get
             {
                 _context.Request.Message.Method = HttpMethod.Post;
-                _context.Code = HttpStatusCode.Created;
+                _context.StatusCode = HttpStatusCode.Created;
                 return this;
             }
         }
@@ -114,7 +90,7 @@ namespace Jal.RestClient.Impl.Fluent
             get
             {
                 _context.Request.Message.Method = HttpMethod.Put;
-                _context.Code = HttpStatusCode.NoContent;
+                _context.StatusCode = HttpStatusCode.NoContent;
                 return this;
             }
         }
@@ -124,19 +100,14 @@ namespace Jal.RestClient.Impl.Fluent
             get
             {
                 _context.Request.Message.Method = new HttpMethod("PATCH");
-                _context.Code = HttpStatusCode.NoContent;
+                _context.StatusCode = HttpStatusCode.NoContent;
                 return this;
             }
         }
 
-        public IRestVerbDescriptor WithQueryParameter(Action<IHttpQueryParameterDescriptor> queryParemeterDescriptorAction)
+        public IRestVerbDescriptor WithQueryParameter(Action<IHttpQueryParameterDescriptor> action)
         {
-            if (queryParemeterDescriptorAction == null)
-            {
-                throw new ArgumentNullException(nameof(queryParemeterDescriptorAction));
-            }
-
-            _context.QueryParameter = queryParemeterDescriptorAction;
+            _context.QueryParameter = action ?? throw new ArgumentNullException(nameof(action));
 
             return this;
         }
@@ -197,39 +168,6 @@ namespace Jal.RestClient.Impl.Fluent
             _context.Request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
 
             return this;
-        }
-
-        public RestResponse Send(HttpIdentity httpIdentity = null)
-        {
-                if (_context.QueryParameter != null)
-                {
-                    var queryParemeterDescriptor = new HttpQueryParameterDescriptor(_context.Request);
-
-                    _context.QueryParameter(queryParemeterDescriptor);
-                }
-
-                if (_context.Header != null)
-                {
-                    var headerDescriptor = new HttpHeaderDescriptor(_context.Request);
-
-                    _context.Header(headerDescriptor);
-                }
-
-                if (_context.Middleware != null)
-                {
-                    var middlewareDescriptor = new HttpMiddlewareDescriptor(_context.Request);
-
-                    _context.Middleware(middlewareDescriptor);
-                }
-
-                if (httpIdentity != null)
-                {
-                    _context.Request.Identity = httpIdentity;
-                }
-
-                var response = _handler.Send(_context.Request);
-
-            return new RestResponse(response);
         }
 
         public async Task<RestResponse> SendAsync(HttpIdentity httpIdentity = null)

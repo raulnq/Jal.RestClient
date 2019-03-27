@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
@@ -25,7 +27,7 @@ namespace Jal.RestClient.Tests
         private IRestFluentHandler _restFluentHandler;
 
         [SetUp]
-        public void Setup()
+        public async Task Setup()
         {
             var log = LogManager.GetLogger("logger");
 
@@ -49,9 +51,9 @@ namespace Jal.RestClient.Tests
         }
 
         [Test]
-        public void Get_With_ShouldNotBeNull()
+        public async Task Get_With_ShouldNotBeNull()
         {
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").WithMiddleware(x => x.UseCommonLogging()).Path("posts/1").Get.MapTo<Customer>().Send(new HttpIdentity("abc")))
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").WithMiddleware(x => x.UseCommonLogging()).Path("posts/1").Get.MapTo<Customer>().SendAsync(new HttpIdentity("abc")))
             {
                 response.ShouldNotBeNull();
 
@@ -61,9 +63,9 @@ namespace Jal.RestClient.Tests
         }
 
         [Test]
-        public void Get_WithAuthenticator_ShouldNotBeNull()
+        public async Task Get_WithAuthenticator_ShouldNotBeNull()
         {
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").WithMiddleware(x=>x.AuthorizedByBasicHttp("xxx", "yyy")).Path("posts/1").Get.MapTo<Customer>().Send())
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").WithMiddleware(x=>x.AuthorizedByBasicHttp("xxx", "yyy")).Path("posts/1").Get.MapTo<Customer>().SendAsync())
             {
                 response.ShouldNotBeNull();
 
@@ -73,9 +75,9 @@ namespace Jal.RestClient.Tests
         }
 
         [Test]
-        public void Get_WithStatusCode_ShouldNotBeNull()
+        public async Task Get_WithStatusCode_ShouldNotBeNull()
         {
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Get.MapTo<Customer>().When(HttpStatusCode.OK).Send())
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts/1").Get.MapTo<Customer>().When(HttpStatusCode.OK).SendAsync())
             {
                 response.ShouldNotBeNull();
 
@@ -85,9 +87,9 @@ namespace Jal.RestClient.Tests
         }
 
         [Test]
-        public void GetAll_With_ShouldNotBeNull()
+        public async Task GetAll_With_ShouldNotBeNull()
         {
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts").Get.MapTo<Customer[]>().Send())
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts").Get.MapTo<Customer[]>().SendAsync())
             { 
 
                 response.ShouldNotBeNull();
@@ -97,9 +99,9 @@ namespace Jal.RestClient.Tests
         }
 
         [Test]
-        public void GetAll_WithQueryParameters_ShouldNotBeNull()
+        public async Task GetAll_WithQueryParameters_ShouldNotBeNull()
         {
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts").WithQueryParameter(x => x.Add("userId", "1")).Get.MapTo<Customer[]>().Send())
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts").WithQueryParameter(x => x.Add("userId", "1")).Get.MapTo<Customer[]>().SendAsync())
             { 
                 response.ShouldNotBeNull();
 
@@ -109,11 +111,11 @@ namespace Jal.RestClient.Tests
 
 
         [Test]
-        public void Post_With_ShouldNotBeNull()
+        public async Task Post_With_ShouldNotBeNull()
         {
             var post = new Customer() {Body = "", Title = "", UserId = 2};
 
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts").Post.Data(post).MapTo<Customer>().Send())
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts").Post.Data(post).MapTo<Customer>().SendAsync())
             {
                 response.ShouldNotBeNull();
 
@@ -122,11 +124,11 @@ namespace Jal.RestClient.Tests
         }
 
         [Test]
-        public void Put_With_ShouldNotBeNull()
+        public async Task Put_With_ShouldNotBeNull()
         {
             var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1};
 
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Put.Data(post).MapTo<Customer>().When(HttpStatusCode.OK).Send())
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts/1").Put.Data(post).MapTo<Customer>().When(HttpStatusCode.OK).SendAsync())
             {
                 response.ShouldNotBeNull();
 
@@ -135,11 +137,16 @@ namespace Jal.RestClient.Tests
         }
 
         [Test]
-        public void Patch_With_ShouldNotBeNull()
+        public async Task Patch_With_ShouldNotBeNull()
         {
             var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1 };
 
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").WithTimeout(10000).Path("posts/1").Patch.Data(post).MapTo<Customer>().When(HttpStatusCode.OK).Send())
+            var client = new System.Net.Http.HttpClient
+            {
+                Timeout = TimeSpan.FromMilliseconds(10000)
+            };
+
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com", client).Path("posts/1").Patch.Data(post).MapTo<Customer>().When(HttpStatusCode.OK).SendAsync())
             {
                 response.ShouldNotBeNull();
 
@@ -148,16 +155,16 @@ namespace Jal.RestClient.Tests
         }
 
         [Test]
-        public void Delete_With_ShouldNotBeNull()
+        public async Task Delete_With_ShouldNotBeNull()
         {
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").Path("posts/1").Delete.Send())
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts/1").Delete.SendAsync())
             {
                 response.ShouldNotBeNull();
             }
         }
 
         [Test]
-        public void Delete1_With_ShouldNotBeNull()
+        public async Task Delete1_With_ShouldNotBeNull()
         {
             var resource = "5bba5502-2cff-4f78-8fde-f898c93597f5";
 
@@ -167,9 +174,9 @@ namespace Jal.RestClient.Tests
 
             var body = $"resource={HttpUtility.UrlEncode(resource)}&client_id={HttpUtility.UrlEncode(clientid)}&client_secret={HttpUtility.UrlEncode(clientsecret)}&grant_type=client_credentials";
 
-            using (var token = _restFluentHandler.Url("https://login.microsoftonline.com").Path("dd5d5cfe-d892-4892-b623-1134653cc289/oauth2/token").Post.Data(body, "application/x-www-form-urlencoded").MapTo<AccessToken>().When(HttpStatusCode.OK).Send())
+            using (var token = await _restFluentHandler.Uri("https://login.microsoftonline.com").Path("dd5d5cfe-d892-4892-b623-1134653cc289/oauth2/token").Post.Data(body, "application/x-www-form-urlencoded").MapTo<AccessToken>().When(HttpStatusCode.OK).SendAsync())
             {
-                using (var response = _restFluentHandler.Url("http://cuy-api-qa.cignium-cuy-qa-ase.p.azurewebsites.net").WithMiddleware(x=>x.AuthorizedByBearerToken(token.Data.Access_Token)).Path("api/v1/campaigns/1").Get.MapTo<Campaign>().Send())
+                using (var response = await _restFluentHandler.Uri("http://cuy-api-qa.cignium-cuy-qa-ase.p.azurewebsites.net").WithMiddleware(x=>x.AuthorizedByBearerToken(token.Data.Access_Token)).Path("api/v1/campaigns/1").Get.MapTo<Campaign>().SendAsync())
                 {
                     response.ShouldNotBeNull();
                 } 

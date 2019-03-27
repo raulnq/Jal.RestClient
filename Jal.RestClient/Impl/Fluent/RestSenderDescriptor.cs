@@ -24,51 +24,9 @@ namespace Jal.RestClient.Impl.Fluent
             _converter = converter;
         }
 
-        public RestResponse<T> Send(HttpIdentity httpIdentity= null)
-        {
-                if (_context.QueryParameter != null)
-                {
-                    var queryParemeterDescriptor = new HttpQueryParameterDescriptor(_context.Request);
-                    _context.QueryParameter(queryParemeterDescriptor);
-                }
-
-                if (_context.Header != null)
-                {
-                    var headerDescriptor = new HttpHeaderDescriptor(_context.Request);
-                    _context.Header(headerDescriptor);
-                }
-
-                if (_context.Middleware != null)
-                {
-                    var middlewareDescriptor = new HttpMiddlewareDescriptor(_context.Request);
-
-                    _context.Middleware(middlewareDescriptor);
-                }
-
-
-            if (httpIdentity != null)
-            {
-                _context.Request.Identity = httpIdentity;
-            }
-
-            var response = _handler.Send(_context.Request);
-
-            if (response.Message != null)
-            {
-                var content = response.Message.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-
-                var result = !string.IsNullOrEmpty(content) && (_context.Code == null || _context.Code == response.HttpStatusCode) ? _converter(content) : default(T);
-
-                return new RestResponse<T>(response, result);
-
-            }
-
-            return new RestResponse<T>(response, default(T));
-        }
-
         public IRestSenderDescriptor<T> Always()
         {
-            _context.Code = null;
+            _context.StatusCode = null;
 
             return this;
         }
@@ -105,7 +63,7 @@ namespace Jal.RestClient.Impl.Fluent
             {
                 var content = await response.Message.Content.ReadAsStringAsync();
 
-                var result = !string.IsNullOrEmpty(content) && (_context.Code == null || _context.Code == response.HttpStatusCode) ? _converter(content) : default(T);
+                var result = !string.IsNullOrEmpty(content) && (_context.StatusCode == null || _context.StatusCode == response.Message.StatusCode) ? _converter(content) : default(T);
 
                 return new RestResponse<T>(response, result);
 
@@ -114,9 +72,9 @@ namespace Jal.RestClient.Impl.Fluent
             return new RestResponse<T>(response, default(T));
         }
 
-        public IRestSenderDescriptor<T> When(HttpStatusCode httpStatusCode)
+        public IRestSenderDescriptor<T> When(HttpStatusCode statuscode)
         {
-            _context.Code = httpStatusCode;
+            _context.StatusCode = statuscode;
 
             return this;
         }

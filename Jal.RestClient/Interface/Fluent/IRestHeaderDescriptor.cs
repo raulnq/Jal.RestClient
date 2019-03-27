@@ -3,8 +3,8 @@ using Jal.HttpClient.Interface.Fluent;
 
 namespace Jal.RestClient.Interface.Fluent
 {
-    public interface IRestHeaderDescriptor : IRestTimeoutDescriptor
+    public interface IRestHeaderDescriptor : IRestResourceDescriptor
     {
-        IRestTimeoutDescriptor WithHeader(Action<IHttpHeaderDescriptor> headerDescriptorAction);
+        IRestResourceDescriptor WithHeader(Action<IHttpHeaderDescriptor> action);
     }
 }

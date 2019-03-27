@@ -8,19 +8,9 @@ namespace Jal.RestClient.Extensions
 {
     public static class RestFluentDescriptorExtensions
     { 
-        public static RestResponse Send(this IRestSenderDescriptor descriptor, string id, string parentid=null, string operationid=null)
-        {
-            return descriptor.Send(new HttpIdentity(id) { ParentId=parentid, OperationId = operationid });
-        }
-
         public static Task<RestResponse> SendAsync(this IRestSenderDescriptor descriptor, string id, string parentid = null, string operationid = null)
         {
             return descriptor.SendAsync(new HttpIdentity(id) { ParentId = parentid, OperationId = operationid });
-        }
-
-        public static RestResponse<T> Send<T>(this IRestSenderDescriptor<T> descriptor, string id, string parentid = null, string operationid = null)
-        {
-            return descriptor.Send(new HttpIdentity(id) { ParentId = parentid, OperationId = operationid });
         }
 
         public static Task<RestResponse<T>> SendAsync<T>(this IRestSenderDescriptor<T> descriptor, string id, string parentid = null, string operationid = null)

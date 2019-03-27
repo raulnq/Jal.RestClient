@@ -15,14 +15,38 @@ namespace Jal.RestClient.Impl.Fluent
             _handler = handler;
         }
 
-        public IRestMiddlewareDescriptor Url(string url)
+        public IRestMiddlewareDescriptor Uri(string uri)
         {
-            if (string.IsNullOrWhiteSpace(url))
+            if (string.IsNullOrWhiteSpace(uri))
             {
-                throw new ArgumentNullException(nameof(url));
+                throw new ArgumentNullException(nameof(uri));
             }
 
-            var request = new HttpRequest(url, HttpMethod.Get);
+            var request = new HttpRequest(uri, HttpMethod.Get);
+
+            return new RestFluentDescriptor(request, _handler);
+        }
+
+        public IRestMiddlewareDescriptor Uri(string uri, System.Net.Http.HttpClient client)
+        {
+            if (string.IsNullOrWhiteSpace(uri))
+            {
+                throw new ArgumentNullException(nameof(uri));
+            }
+
+            var request = new HttpRequest(uri, HttpMethod.Get, client);
+
+            return new RestFluentDescriptor(request, _handler);
+        }
+
+        public IRestMiddlewareDescriptor Uri(string uri, Func<System.Net.Http.HttpClient> factory)
+        {
+            if (string.IsNullOrWhiteSpace(uri))
+            {
+                throw new ArgumentNullException(nameof(uri));
+            }
+
+            var request = new HttpRequest(uri, HttpMethod.Get, factory);
 
             return new RestFluentDescriptor(request, _handler);
         }
