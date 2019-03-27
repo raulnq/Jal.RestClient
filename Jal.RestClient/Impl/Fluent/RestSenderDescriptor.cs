@@ -53,16 +53,17 @@ namespace Jal.RestClient.Impl.Fluent
 
             var response = _handler.Send(_context.Request);
 
-                var content = response?.Content?.Read();
+            if (response.Message != null)
+            {
+                var content = response.Message.Content.ReadAsStringAsync().GetAwaiter().GetResult();
 
-                var result = !string.IsNullOrEmpty(content) && (_context.Code == null || _context.Code == response.HttpStatusCode)  ? _converter(content) : default(T);
+                var result = !string.IsNullOrEmpty(content) && (_context.Code == null || _context.Code == response.HttpStatusCode) ? _converter(content) : default(T);
 
-                return new RestResponse<T>
-                       {
-                           HttpResponse = response,
-                           HttpResquest = _context.Request,
-                           Data = result
-                       };
+                return new RestResponse<T>(response, result);
+
+            }
+
+            return new RestResponse<T>(response, default(T));
         }
 
         public IRestSenderDescriptor<T> Always()
@@ -100,16 +101,17 @@ namespace Jal.RestClient.Impl.Fluent
 
             var response = await _handler.SendAsync(_context.Request);
 
-            var content = response?.Content?.Read();
+            if(response.Message!=null)
+            {
+                var content = await response.Message.Content.ReadAsStringAsync();
 
-            var result = !string.IsNullOrEmpty(content) && (_context.Code == null || _context.Code == response.HttpStatusCode) ? _converter(content) : default(T);
+                var result = !string.IsNullOrEmpty(content) && (_context.Code == null || _context.Code == response.HttpStatusCode) ? _converter(content) : default(T);
 
-            return new RestResponse<T>
-                   {
-                       HttpResponse = response,
-                       HttpResquest = _context.Request,
-                       Data = result
-                   };
+                return new RestResponse<T>(response, result);
+
+            }
+
+            return new RestResponse<T>(response, default(T));
         }
 
         public IRestSenderDescriptor<T> When(HttpStatusCode httpStatusCode)

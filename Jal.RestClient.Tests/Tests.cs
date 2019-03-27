@@ -4,12 +4,13 @@ using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Common.Logging;
-using Jal.HttpClient.Impl.Fluent;
+using Jal.ChainOfResponsability.Installer;
+using Jal.HttpClient.Common.Logging;
+using Jal.HttpClient.Common.Logging.Installer;
+using Jal.HttpClient.Extensions;
 using Jal.HttpClient.Installer;
-using Jal.HttpClient.Logger;
-using Jal.HttpClient.Logger.Installer;
 using Jal.HttpClient.Model;
-using Jal.RestClient.Impl.Fluent;
+using Jal.Locator.CastleWindsor.Installer;
 using Jal.RestClient.Installer;
 using Jal.RestClient.Interface.Fluent;
 using Jal.RestClient.Json;
@@ -36,9 +37,13 @@ namespace Jal.RestClient.Tests
 
             container.Install(new HttpClientInstaller());
 
-            container.Install(new HttpClienLoggertInstaller());
+            container.Install(new HttpClientCommonLoggingInstaller());
 
             container.Install(new RestClientInstaller());
+
+            container.Install(new ChainOfResponsabilityInstaller());
+
+            container.Install(new ServiceLocatorInstaller());
 
             _restFluentHandler = container.Resolve<IRestFluentHandler>();
         }
@@ -46,7 +51,7 @@ namespace Jal.RestClient.Tests
         [Test]
         public void Get_With_ShouldNotBeNull()
         {
-            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").WithMiddleware(x => x.AddCommonLogging()).Path("posts/1").Get.MapTo<Customer>().Send(new HttpIdentity("abc")))
+            using (var response = _restFluentHandler.Url("https://jsonplaceholder.typicode.com").WithMiddleware(x => x.UseCommonLogging()).Path("posts/1").Get.MapTo<Customer>().Send(new HttpIdentity("abc")))
             {
                 response.ShouldNotBeNull();
 

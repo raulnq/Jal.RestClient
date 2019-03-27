@@ -5,9 +5,11 @@ namespace Jal.RestClient.Model
 {
     public class RestResponse : IDisposable
     {
-        public HttpResponse HttpResponse { get; set; }
-
-        public HttpRequest HttpResquest { get; set; }
+        public RestResponse(HttpResponse httpresponse)
+        {
+            HttpResponse = httpresponse;
+        }
+        public HttpResponse HttpResponse { get; internal set; }
 
         public void Dispose()
         {
@@ -18,14 +20,21 @@ namespace Jal.RestClient.Model
         {
             if (disposing)
             {
-                HttpResponse?.Dispose();
-                HttpResquest = null;
+                if(HttpResponse!=null)
+                {
+                    HttpResponse.Dispose();
+                }
+                HttpResponse = null;
             }
         }
     }
 
     public class RestResponse<T> : RestResponse
     {
-        public T Data { get; set; }
+        public RestResponse(HttpResponse httpresponse, T data):base(httpresponse)
+        {
+            Data = data;
+        }
+        public T Data { get; }
     }
 }

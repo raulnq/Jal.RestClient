@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using Jal.HttpClient.Interface;
 using Jal.HttpClient.Model;
 using Jal.RestClient.Interface.Fluent;
@@ -7,13 +8,6 @@ namespace Jal.RestClient.Impl.Fluent
 {
     public class RestFluentHandler : IRestFluentHandler 
     {
-        public static IRestFluentHandler Current;
-
-        public static IRestFluentHandler Create(IHttpHandler handler)
-        {
-            return new RestFluentHandler(handler);
-        }
-
         private readonly IHttpHandler _handler;
 
         public RestFluentHandler(IHttpHandler handler)

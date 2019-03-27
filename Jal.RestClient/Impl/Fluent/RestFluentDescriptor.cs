@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Jal.HttpClient.Impl.Fluent;
 using Jal.HttpClient.Interface;
@@ -33,9 +34,9 @@ namespace Jal.RestClient.Impl.Fluent
                 throw new ArgumentNullException(nameof(path));
             }
 
-            var baseUri = new Uri(_context.Request.Url);
+            var uri = new Uri(_context.Request.Message.RequestUri, path);
 
-            _context.Request.Url = new Uri(baseUri, path).ToString();
+            _context.Request.Message.RequestUri = uri;
 
             return this;
         }
@@ -82,7 +83,7 @@ namespace Jal.RestClient.Impl.Fluent
         {
             get
             {
-                _context.Request.HttpMethod = HttpMethod.Get;
+                _context.Request.Message.Method = HttpMethod.Get;
                 _context.Code = HttpStatusCode.OK;
                 return this;
             }
@@ -92,7 +93,7 @@ namespace Jal.RestClient.Impl.Fluent
         {
             get
             {
-                _context.Request.HttpMethod = HttpMethod.Delete;
+                _context.Request.Message.Method = HttpMethod.Delete;
                 _context.Code = HttpStatusCode.NoContent;
                 return this;
             }
@@ -102,7 +103,7 @@ namespace Jal.RestClient.Impl.Fluent
         {
             get
             {
-                _context.Request.HttpMethod = HttpMethod.Post;
+                _context.Request.Message.Method = HttpMethod.Post;
                 _context.Code = HttpStatusCode.Created;
                 return this;
             }
@@ -112,7 +113,7 @@ namespace Jal.RestClient.Impl.Fluent
         {
             get
             {
-                _context.Request.HttpMethod = HttpMethod.Put;
+                _context.Request.Message.Method = HttpMethod.Put;
                 _context.Code = HttpStatusCode.NoContent;
                 return this;
             }
@@ -122,7 +123,7 @@ namespace Jal.RestClient.Impl.Fluent
         {
             get
             {
-                _context.Request.HttpMethod = HttpMethod.Patch;
+                _context.Request.Message.Method = new HttpMethod("PATCH");
                 _context.Code = HttpStatusCode.NoContent;
                 return this;
             }
@@ -152,21 +153,16 @@ namespace Jal.RestClient.Impl.Fluent
                 throw new ArgumentNullException(nameof(acceptedType));
             }
 
-            _context.Request.AcceptedType = acceptedType;
+            _context.Request.Message.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(acceptedType));
 
             return new RestSenderDescriptor<T>(_context, _handler, converter);
         }
 
-        public IRestMapDescriptor Data<TBody>(TBody data, Func<TBody, string> converter, string contentType = "application/json", string characterSet = "charset=utf-8")
+        public IRestMapDescriptor Data<TBody>(TBody data, Func<TBody, string> converter, string contentType = "application/json")
         {
             if (converter == null)
             {
                 throw new ArgumentNullException(nameof(converter));
-            }
-
-            if (string.IsNullOrWhiteSpace(characterSet))
-            {
-                throw new ArgumentNullException(nameof(characterSet));
             }
 
             if (string.IsNullOrWhiteSpace(contentType))
@@ -176,26 +172,19 @@ namespace Jal.RestClient.Impl.Fluent
 
            var content = converter(data);
 
-            _context.Request.Content = new HttpRequestStringContent(content)
-            {
-                ContentType = contentType,
-                CharacterSet = characterSet
-            };
+            _context.Request.Content = new StringContent(content);
+
+            _context.Request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
 
             return this;
 
         }
 
-        public IRestMapDescriptor Data(string data, string contentType = "application/json", string characterSet = "charset=utf-8")
+        public IRestMapDescriptor Data(string data, string contentType = "application/json")
         {
             if (string.IsNullOrWhiteSpace(data))
             {
                 throw new ArgumentNullException(nameof(data));
-            }
-
-            if (string.IsNullOrWhiteSpace(characterSet))
-            {
-                throw new ArgumentNullException(nameof(characterSet));
             }
 
             if (string.IsNullOrWhiteSpace(contentType))
@@ -203,11 +192,9 @@ namespace Jal.RestClient.Impl.Fluent
                 throw new ArgumentNullException(nameof(contentType));
             }
 
-            _context.Request.Content = new HttpRequestStringContent(data)
-            {
-                ContentType = contentType,
-                CharacterSet = characterSet
-            };
+            _context.Request.Content = new StringContent(data);
+
+            _context.Request.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(contentType);
 
             return this;
         }
@@ -242,11 +229,7 @@ namespace Jal.RestClient.Impl.Fluent
 
                 var response = _handler.Send(_context.Request);
 
-                return new RestResponse
-                {
-                    HttpResponse = response,
-                    HttpResquest = _context.Request,
-                };
+            return new RestResponse(response);
         }
 
         public async Task<RestResponse> SendAsync(HttpIdentity httpIdentity = null)
@@ -280,11 +263,7 @@ namespace Jal.RestClient.Impl.Fluent
 
             var response = await _handler.SendAsync(_context.Request);
 
-            return new RestResponse
-            {
-                HttpResponse = response,
-                HttpResquest = _context.Request,
-            };
+            return new RestResponse(response);
         }
     }
 }
