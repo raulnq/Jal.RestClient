@@ -59,8 +59,8 @@
     <Reference Include="Jal.ChainOfResponsability.Installer, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Jal.ChainOfResponsability.Installer.1.0.1\lib\netstandard2.0\Jal.ChainOfResponsability.Installer.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.HttpClient, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.HttpClient.2.2.0\lib\netstandard2.0\Jal.HttpClient.dll</HintPath>
+    <Reference Include="Jal.HttpClient, Version=2.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.HttpClient.2.2.1\lib\netstandard2.0\Jal.HttpClient.dll</HintPath>
     </Reference>
     <Reference Include="Jal.HttpClient.Common.Logging, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Jal.HttpClient.Common.Logging.1.0.3\lib\netstandard2.0\Jal.HttpClient.Common.Logging.dll</HintPath>
