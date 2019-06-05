@@ -53,23 +53,23 @@
     <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.ChainOfResponsability, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.ChainOfResponsability.1.0.3\lib\netstandard2.0\Jal.ChainOfResponsability.dll</HintPath>
+    <Reference Include="Jal.ChainOfResponsability, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.ChainOfResponsability.1.0.4\lib\netstandard2.0\Jal.ChainOfResponsability.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.ChainOfResponsability.Installer, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.ChainOfResponsability.Installer.1.0.3\lib\netstandard2.0\Jal.ChainOfResponsability.Installer.dll</HintPath>
+    <Reference Include="Jal.ChainOfResponsability.Installer, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.ChainOfResponsability.Installer.1.0.4\lib\netstandard2.0\Jal.ChainOfResponsability.Installer.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.HttpClient, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.HttpClient.2.2.2\lib\netstandard2.0\Jal.HttpClient.dll</HintPath>
+    <Reference Include="Jal.HttpClient, Version=2.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.HttpClient.2.2.3\lib\netstandard2.0\Jal.HttpClient.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.HttpClient.Common.Logging, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.HttpClient.Common.Logging.1.0.6\lib\netstandard2.0\Jal.HttpClient.Common.Logging.dll</HintPath>
+    <Reference Include="Jal.HttpClient.Common.Logging, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.HttpClient.Common.Logging.1.0.7\lib\netstandard2.0\Jal.HttpClient.Common.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.HttpClient.Common.Logging.Installer, Version=1.0.6.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.HttpClient.Common.Logging.Installer.1.0.6\lib\netstandard2.0\Jal.HttpClient.Common.Logging.Installer.dll</HintPath>
+    <Reference Include="Jal.HttpClient.Common.Logging.Installer, Version=1.0.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.HttpClient.Common.Logging.Installer.1.0.8\lib\netstandard2.0\Jal.HttpClient.Common.Logging.Installer.dll</HintPath>
     </Reference>
-    <Reference Include="Jal.HttpClient.Installer, Version=2.1.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jal.HttpClient.Installer.2.1.8\lib\netstandard2.0\Jal.HttpClient.Installer.dll</HintPath>
+    <Reference Include="Jal.HttpClient.Installer, Version=2.1.9.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Jal.HttpClient.Installer.2.1.9\lib\netstandard2.0\Jal.HttpClient.Installer.dll</HintPath>
     </Reference>
     <Reference Include="Jal.Locator, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Jal.Locator.1.1.1\lib\net45\Jal.Locator.dll</HintPath>
