@@ -31,7 +31,7 @@ namespace Jal.RestClient.Impl.Fluent
             return this;
         }
 
-        public async Task<RestResponse<T>> SendAsync(HttpIdentity httpIdentity = null)
+        public async Task<RestResponse<T>> SendAsync()
         {
             if (_context.QueryParameter != null)
             {
@@ -52,11 +52,6 @@ namespace Jal.RestClient.Impl.Fluent
                 _context.Middleware(middlewareDescriptor);
             }
 
-            if(httpIdentity!=null)
-            {
-                _context.Request.Identity = httpIdentity;
-            }
-
             var response = await _handler.SendAsync(_context.Request);
 
             if(response.Message!=null)
@@ -75,6 +70,18 @@ namespace Jal.RestClient.Impl.Fluent
         public IRestSenderDescriptor<T> When(HttpStatusCode statuscode)
         {
             _context.StatusCode = statuscode;
+
+            return this;
+        }
+
+        public IRestSenderDescriptor<T> WithIdentity(HttpIdentity httpIdentity)
+        {
+            if (httpIdentity == null)
+            {
+                throw new ArgumentNullException(nameof(httpIdentity));
+            }
+
+            _context.Request.Identity = httpIdentity;
 
             return this;
         }

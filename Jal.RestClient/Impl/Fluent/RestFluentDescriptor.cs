@@ -170,7 +170,7 @@ namespace Jal.RestClient.Impl.Fluent
             return this;
         }
 
-        public async Task<RestResponse> SendAsync(HttpIdentity httpIdentity = null)
+        public async Task<RestResponse> SendAsync()
         {
             if (_context.QueryParameter != null)
             {
@@ -194,14 +194,21 @@ namespace Jal.RestClient.Impl.Fluent
                 _context.Middleware(middlewareDescriptor);
             }
 
-            if (httpIdentity != null)
-            {
-                _context.Request.Identity = httpIdentity;
-            }
-
             var response = await _handler.SendAsync(_context.Request);
 
             return new RestResponse(response);
+        }
+
+        public IRestSenderDescriptor WithIdentity(HttpIdentity httpIdentity)
+        {
+            if (httpIdentity == null)
+            {
+                throw new ArgumentNullException(nameof(httpIdentity));
+            }
+
+            _context.Request.Identity = httpIdentity;
+
+            return this;
         }
     }
 }

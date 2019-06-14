@@ -53,7 +53,7 @@ namespace Jal.RestClient.Tests
         [Test]
         public async Task Get_With_ShouldNotBeNull()
         {
-            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").WithMiddleware(x => x.UseCommonLogging()).Path("posts/1").Get.MapTo<Customer>().SendAsync(new HttpIdentity("abc")))
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").WithMiddleware(x => x.UseCommonLogging()).Path("posts/1").Get.MapTo<Customer>().WithIdentity(new HttpIdentity("abc")).SendAsync())
             {
                 response.ShouldNotBeNull();
 

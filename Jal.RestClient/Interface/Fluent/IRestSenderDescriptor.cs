@@ -6,11 +6,15 @@ namespace Jal.RestClient.Interface.Fluent
 {
     public interface IRestSenderDescriptor<T>
     {
-        Task<RestResponse<T>> SendAsync(HttpIdentity identity=null);
+        Task<RestResponse<T>> SendAsync();
+
+        IRestSenderDescriptor<T> WithIdentity(HttpIdentity identity);
     }
 
     public interface IRestSenderDescriptor
     {
-        Task<RestResponse> SendAsync(HttpIdentity identity = null);
+        Task<RestResponse> SendAsync();
+
+        IRestSenderDescriptor WithIdentity(HttpIdentity identity);
     }
 }

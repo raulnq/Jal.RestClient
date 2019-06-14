@@ -8,14 +8,14 @@ namespace Jal.RestClient.Extensions
 {
     public static class RestFluentDescriptorExtensions
     { 
-        public static Task<RestResponse> SendAsync(this IRestSenderDescriptor descriptor, string id, string parentid = null, string operationid = null)
+        public static IRestSenderDescriptor WithIdentity(this IRestSenderDescriptor descriptor, string id, string parentid = null, string operationid = null)
         {
-            return descriptor.SendAsync(new HttpIdentity(id) { ParentId = parentid, OperationId = operationid });
+            return descriptor.WithIdentity(new HttpIdentity(id) { ParentId = parentid, OperationId = operationid });
         }
 
-        public static Task<RestResponse<T>> SendAsync<T>(this IRestSenderDescriptor<T> descriptor, string id, string parentid = null, string operationid = null)
+        public static IRestSenderDescriptor<T> WithIdentity<T>(this IRestSenderDescriptor<T> descriptor, string id, string parentid = null, string operationid = null)
         {
-            return descriptor.SendAsync(new HttpIdentity(id) { ParentId = parentid, OperationId = operationid });
+            return descriptor.WithIdentity(new HttpIdentity(id) { ParentId = parentid, OperationId = operationid });
         }
 
         public static IRestMapDescriptor FormUrlEncodedData(this IRestContentDescriptor descriptor, string data)
