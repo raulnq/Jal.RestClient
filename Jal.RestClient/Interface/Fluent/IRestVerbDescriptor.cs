@@ -4,7 +4,7 @@ namespace Jal.RestClient.Interface.Fluent
     {
         IRestMapDescriptor Get { get; }
 
-        IRestMapDescriptor Delete { get; }
+        IRestContentDescriptor Delete { get; }
 
         IRestContentDescriptor Post { get; }
 

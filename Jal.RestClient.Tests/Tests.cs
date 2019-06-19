@@ -157,7 +157,9 @@ namespace Jal.RestClient.Tests
         [Test]
         public async Task Delete_With_ShouldNotBeNull()
         {
-            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts/1").Delete.SendAsync())
+            var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1 };
+
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts/1").Delete.Data(post).SendAsync())
             {
                 response.ShouldNotBeNull();
             }

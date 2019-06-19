@@ -65,7 +65,7 @@ namespace Jal.RestClient.Impl.Fluent
             }
         }
 
-        public IRestMapDescriptor Delete
+        public IRestContentDescriptor Delete
         {
             get
             {
