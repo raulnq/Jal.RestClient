@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Raul Naupari</Authors>
-    <Version>1.7.1</Version>
+    <Version>1.7.2</Version>
     <Company>Raul Naupari</Company>
     <Description>Just another library to call REST web services</Description>
     <Copyright />
@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Jal.HttpClient" Version="2.2.4" />
+    <PackageReference Include="Jal.HttpClient" Version="2.2.8" />
   </ItemGroup>
   
 </Project>

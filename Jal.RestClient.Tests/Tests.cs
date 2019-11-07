@@ -16,18 +16,19 @@ using Jal.Locator.CastleWindsor.Installer;
 using Jal.RestClient.Installer;
 using Jal.RestClient.Interface.Fluent;
 using Jal.RestClient.Json;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
 using Shouldly;
 
 namespace Jal.RestClient.Tests
 {
-    [TestFixture]
+    [TestClass]
     public class Tests
     {
         private IRestFluentHandler _restFluentHandler;
 
-        [SetUp]
-        public async Task Setup()
+        [TestInitialize]
+        public void Setup()
         {
             var log = LogManager.GetLogger("logger");
 
@@ -50,7 +51,7 @@ namespace Jal.RestClient.Tests
             _restFluentHandler = container.Resolve<IRestFluentHandler>();
         }
 
-        [Test]
+        [TestMethod]
         public async Task Get_With_ShouldNotBeNull()
         {
             using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").WithMiddleware(x => x.UseCommonLogging()).Path("posts/1").Get.MapTo<Customer>().WithIdentity(new HttpIdentity("abc")).SendAsync())
@@ -62,7 +63,7 @@ namespace Jal.RestClient.Tests
 
         }
 
-        [Test]
+        [TestMethod]
         public async Task Get_WithAuthenticator_ShouldNotBeNull()
         {
             using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").WithMiddleware(x=>x.AuthorizedByBasicHttp("xxx", "yyy")).Path("posts/1").Get.MapTo<Customer>().SendAsync())
@@ -74,7 +75,7 @@ namespace Jal.RestClient.Tests
 
         }
 
-        [Test]
+        [TestMethod]
         public async Task Get_WithStatusCode_ShouldNotBeNull()
         {
             using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts/1").Get.MapTo<Customer>().When(HttpStatusCode.OK).SendAsync())
@@ -86,7 +87,7 @@ namespace Jal.RestClient.Tests
 
         }
 
-        [Test]
+        [TestMethod]
         public async Task GetAll_With_ShouldNotBeNull()
         {
             using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts").Get.MapTo<Customer[]>().SendAsync())
@@ -98,7 +99,7 @@ namespace Jal.RestClient.Tests
             }
         }
 
-        [Test]
+        [TestMethod]
         public async Task GetAll_WithQueryParameters_ShouldNotBeNull()
         {
             using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts").WithQueryParameter(x => x.Add("userId", "1")).Get.MapTo<Customer[]>().SendAsync())
@@ -110,7 +111,7 @@ namespace Jal.RestClient.Tests
         }
 
 
-        [Test]
+        [TestMethod]
         public async Task Post_With_ShouldNotBeNull()
         {
             var post = new Customer() {Body = "", Title = "", UserId = 2};
@@ -123,7 +124,7 @@ namespace Jal.RestClient.Tests
             }
         }
 
-        [Test]
+        [TestMethod]
         public async Task Put_With_ShouldNotBeNull()
         {
             var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1};
@@ -136,7 +137,7 @@ namespace Jal.RestClient.Tests
             }
         }
 
-        [Test]
+        [TestMethod]
         public async Task Patch_With_ShouldNotBeNull()
         {
             var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1 };
@@ -154,7 +155,7 @@ namespace Jal.RestClient.Tests
             }
         }
 
-        [Test]
+        [TestMethod]
         public async Task Delete_With_ShouldNotBeNull()
         {
             var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1 };
@@ -165,7 +166,7 @@ namespace Jal.RestClient.Tests
             }
         }
 
-        [Test]
+        [TestMethod]
         public async Task Delete1_With_ShouldNotBeNull()
         {
             var resource = "5bba5502-2cff-4f78-8fde-f898c93597f5";
