@@ -1,4 +1,4 @@
-# Jal.RestClient
+# Jal.RestClient [![NuGet](https://img.shields.io/nuget/v/Jal.RestClient.svg)](https://www.nuget.org/packages/Jal.RestClient)
 Just another library to call REST APIs
 ## How to use?
 
