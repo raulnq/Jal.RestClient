@@ -2,14 +2,9 @@
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Jal.HttpClient.Impl.Fluent;
-using Jal.HttpClient.Interface;
-using Jal.HttpClient.Interface.Fluent;
-using Jal.HttpClient.Model;
-using Jal.RestClient.Interface.Fluent;
-using Jal.RestClient.Model;
+using Jal.HttpClient;
 
-namespace Jal.RestClient.Impl.Fluent
+namespace Jal.RestClient
 {
 
     public class RestFluentDescriptor : IRestResourceDescriptor, IRestMiddlewareDescriptor, IRestQueryParameteDescriptor, IRestMapDescriptor, IRestContentDescriptor
@@ -199,14 +194,14 @@ namespace Jal.RestClient.Impl.Fluent
             return new RestResponse(response);
         }
 
-        public IRestSenderDescriptor WithIdentity(HttpIdentity httpIdentity)
+        public IRestSenderDescriptor WithTracing(HttpTracingContext context)
         {
-            if (httpIdentity == null)
+            if (context == null)
             {
-                throw new ArgumentNullException(nameof(httpIdentity));
+                throw new ArgumentNullException(nameof(context));
             }
 
-            _context.Request.Identity = httpIdentity;
+            _context.Request.Tracing = context;
 
             return this;
         }

@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace Jal.RestClient.Interface.Fluent
+namespace Jal.RestClient
 {
     public interface IRestWhenDescriptor<T> : IRestSenderDescriptor<T>
     {

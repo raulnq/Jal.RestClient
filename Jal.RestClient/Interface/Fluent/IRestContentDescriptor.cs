@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jal.RestClient.Interface.Fluent
+namespace Jal.RestClient
 {
     public interface IRestContentDescriptor : IRestSenderDescriptor
     {

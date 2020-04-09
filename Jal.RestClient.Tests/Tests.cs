@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using Castle.MicroKernel.Registration;
-using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Common.Logging;
-using Jal.ChainOfResponsability.Installer;
 using Jal.HttpClient.Common.Logging;
 using Jal.HttpClient.Common.Logging.Installer;
-using Jal.HttpClient.Extensions;
-using Jal.HttpClient.Installer;
-using Jal.HttpClient.Model;
-using Jal.Locator.CastleWindsor.Installer;
+using Jal.HttpClient;
 using Jal.RestClient.Installer;
-using Jal.RestClient.Interface.Fluent;
 using Jal.RestClient.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NUnit.Framework;
 using Shouldly;
 
 namespace Jal.RestClient.Tests
@@ -34,27 +26,17 @@ namespace Jal.RestClient.Tests
 
             var container = new WindsorContainer();
 
-            container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel));
-
             container.Register(Component.For<ILog>().Instance(log));
 
-            container.Install(new HttpClientInstaller());
+            container.AddRestClient(c=> { c.AddCommonLoggingForHttpClient(); });
 
-            container.Install(new HttpClientCommonLoggingInstaller());
-
-            container.Install(new RestClientInstaller());
-
-            container.Install(new ChainOfResponsabilityInstaller());
-
-            container.Install(new ServiceLocatorInstaller());
-
-            _restFluentHandler = container.Resolve<IRestFluentHandler>();
+            _restFluentHandler = container.GetRestClient();
         }
 
         [TestMethod]
         public async Task Get_With_ShouldNotBeNull()
         {
-            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").WithMiddleware(x => x.UseCommonLogging()).Path("posts/1").Get.MapTo<Customer>().WithIdentity(new HttpIdentity("abc")).SendAsync())
+            using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").WithMiddleware(x => x.UseCommonLogging()).Path("posts/1").Get.MapTo<Customer>().WithTracing(new HttpTracingContext("abc", null, null)).SendAsync())
             {
                 response.ShouldNotBeNull();
 

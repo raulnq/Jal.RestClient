@@ -1,4 +1,4 @@
-namespace Jal.RestClient.Interface.Fluent
+namespace Jal.RestClient
 {
     public interface IRestVerbDescriptor
     {

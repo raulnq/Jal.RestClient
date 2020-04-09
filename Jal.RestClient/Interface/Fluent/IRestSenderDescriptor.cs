@@ -1,20 +1,19 @@
 using System.Threading.Tasks;
-using Jal.HttpClient.Model;
-using Jal.RestClient.Model;
+using Jal.HttpClient;
 
-namespace Jal.RestClient.Interface.Fluent
+namespace Jal.RestClient
 {
     public interface IRestSenderDescriptor<T>
     {
         Task<RestResponse<T>> SendAsync();
 
-        IRestSenderDescriptor<T> WithIdentity(HttpIdentity identity);
+        IRestSenderDescriptor<T> WithTracing(HttpTracingContext context);
     }
 
     public interface IRestSenderDescriptor
     {
         Task<RestResponse> SendAsync();
 
-        IRestSenderDescriptor WithIdentity(HttpIdentity identity);
+        IRestSenderDescriptor WithTracing(HttpTracingContext context);
     }
 }

@@ -1,10 +1,9 @@
 using System;
 using System.Net.Http;
-using Jal.HttpClient.Interface;
-using Jal.HttpClient.Model;
-using Jal.RestClient.Interface.Fluent;
+using System.Threading;
+using Jal.HttpClient;
 
-namespace Jal.RestClient.Impl.Fluent
+namespace Jal.RestClient
 {
     public class RestFluentHandler : IRestFluentHandler 
     {
@@ -15,38 +14,38 @@ namespace Jal.RestClient.Impl.Fluent
             _handler = handler;
         }
 
-        public IRestMiddlewareDescriptor Uri(string uri)
+        public IRestMiddlewareDescriptor Uri(string uri, CancellationToken cancellationtoken = default)
         {
             if (string.IsNullOrWhiteSpace(uri))
             {
                 throw new ArgumentNullException(nameof(uri));
             }
 
-            var request = new HttpRequest(uri, HttpMethod.Get);
+            var request = new HttpRequest(uri, HttpMethod.Get, cancellationtoken);
 
             return new RestFluentDescriptor(request, _handler);
         }
 
-        public IRestMiddlewareDescriptor Uri(string uri, System.Net.Http.HttpClient client)
+        public IRestMiddlewareDescriptor Uri(string uri, System.Net.Http.HttpClient client, CancellationToken cancellationtoken = default)
         {
             if (string.IsNullOrWhiteSpace(uri))
             {
                 throw new ArgumentNullException(nameof(uri));
             }
 
-            var request = new HttpRequest(uri, HttpMethod.Get, client);
+            var request = new HttpRequest(uri, HttpMethod.Get, client, cancellationtoken);
 
             return new RestFluentDescriptor(request, _handler);
         }
 
-        public IRestMiddlewareDescriptor Uri(string uri, Func<System.Net.Http.HttpClient> factory)
+        public IRestMiddlewareDescriptor Uri(string uri, Func<System.Net.Http.HttpClient> factory, CancellationToken cancellationtoken = default)
         {
             if (string.IsNullOrWhiteSpace(uri))
             {
                 throw new ArgumentNullException(nameof(uri));
             }
 
-            var request = new HttpRequest(uri, HttpMethod.Get, factory);
+            var request = new HttpRequest(uri, HttpMethod.Get, factory, cancellationtoken);
 
             return new RestFluentDescriptor(request, _handler);
         }

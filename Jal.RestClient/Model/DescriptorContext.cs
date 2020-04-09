@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Net;
-using Jal.HttpClient.Interface.Fluent;
-using Jal.HttpClient.Model;
-using Jal.RestClient.Interface;
+using Jal.HttpClient;
 
-namespace Jal.RestClient.Model
+namespace Jal.RestClient
 {
     public class DescriptorContext
     {

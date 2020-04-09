@@ -1,7 +1,7 @@
 using System;
-using Jal.HttpClient.Interface.Fluent;
+using Jal.HttpClient;
 
-namespace Jal.RestClient.Interface.Fluent
+namespace Jal.RestClient
 {
     public interface IRestHeaderDescriptor : IRestResourceDescriptor
     {

@@ -1,56 +1,87 @@
 # Jal.RestClient
+Just another library to call REST APIs
+## How to use?
 
-Just another library to call REST web services
+```csharp
 
-Note: The Jal.HttpClient library is needed.
-    
-Setup the Castle Windsor container
-```c++
-var container = new WindsorContainer();
-```
-Install the Jal.HttpClient library. The Jal.HttpClient.Installer is needed (you can use as well the LightInjecy version).
-```c++
-container.Install(new HttpClientInstaller());
-```
-Install the Jal.RestClient library. The Jal.RestClient.Installer is needed  (you can use as well the LightInjecy version).
-```c++
-container.Install(new RestClientInstaller());
-```
-Resolve an instance of the IRestHandler class
-```c++
-var restHandler = container.Resolve<IRestFluentHandler>();
-```
-Use the Json serializer extension methods Jal.RestClient.Json
-
-Send requests to https://jsonplaceholder.typicode.com
-```c++
-using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts/1").Get.MapTo<Customer>().When(HttpStatusCode.OK).SendAsync())
+using (var response = await client.Uri("https://jsonplaceholder.typicode.com")
+	.Path("posts/1")
+	.Get.MapTo<Customer>().When(HttpStatusCode.OK)
+	.SendAsync())
 {
 
 }
 
-using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts").WithQueryParameter(x => x.Add("userId", "1")).Get.MapTo<Customer[]>().SendAsync())
+using (var response = await client.Uri("https://jsonplaceholder.typicode.com")
+	.Path("posts")
+	.WithQueryParameter(x => x.Add("userId", "1"))
+	.Get.MapTo<Customer[]>()
+	.SendAsync())
 { 
 
 }
 
 var post = new Customer() {Body = "", Title = "", UserId = 2};
 
-using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts").Post.Data(post).MapTo<Customer>().SendAsync())
+using (var response = await client.Uri("https://jsonplaceholder.typicode.com")
+	.Path("posts")
+	.Post.Data(post).MapTo<Customer>()
+	.SendAsync())
 {
 
 }
+
 var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1};
 
-using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts/1").Put.Data(post).MapTo<Customer>().When(HttpStatusCode.OK).SendAsync())
+using (var response = await client.Uri("https://jsonplaceholder.typicode.com")
+	.Path("posts/1")
+	.Put.Data(post).MapTo<Customer>().When(HttpStatusCode.OK)
+	.SendAsync())
 {
 
 }
 
 var post = new Customer() { Body = "", Title = "", UserId = 2, Id = 1 };
 
-using (var response = await _restFluentHandler.Uri("https://jsonplaceholder.typicode.com").Path("posts/1").Delete.Data(post).SendAsync())
+using (var response = await client.Uri("https://jsonplaceholder.typicode.com")
+	.Path("posts/1")
+	.Delete.Data(post)
+	.SendAsync())
 {
 
 }
+```
+## IRestFluentHandler interface building
+### Castle Windsor [![NuGet](https://img.shields.io/nuget/v/Jal.RestClient.Installer.svg)](https://www.nuget.org/packages/Jal.RestClient.Installer)
+```csharp
+var container = new WindsorContainer();
+
+container.AddRestClient();
+
+var client = container.GetRestClient();
+```
+### LightInject [![NuGet](https://img.shields.io/nuget/v/Jal.RestClient.LightInject.Installer.svg)](https://www.nuget.org/packages/Jal.RestClient.LightInject.Installer)
+```csharp
+var container = new ServiceContainer();
+
+container.AddRestClient();
+
+var client = container.GetRestClient();
+```
+### Microsoft.Extensions.DependencyInjection [![NuGet](https://img.shields.io/nuget/v/Jal.RestClient.Microsoft.Extensions.DependencyInjection.Installer.svg)](https://www.nuget.org/packages/Jal.RestClient.Microsoft.Extensions.DependencyInjection.Installer)
+```csharp
+var container = new ServiceCollection();
+
+container.AddRestClient();
+
+var provider = container.BuildServiceProvider();
+
+var client = provider.GetRestClient();
+```
+## Middlewares
+
+Use the same middlewares used in [Jal.HttpClient](https://github.com/raulnq/Jal.HttpClient)
+
+```csharp
+
 ```

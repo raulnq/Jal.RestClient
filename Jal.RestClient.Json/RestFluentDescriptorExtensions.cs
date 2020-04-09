@@ -1,5 +1,4 @@
-﻿using Jal.RestClient.Interface.Fluent;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
 namespace Jal.RestClient.Json

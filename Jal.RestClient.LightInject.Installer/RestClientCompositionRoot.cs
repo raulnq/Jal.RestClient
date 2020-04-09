@@ -1,8 +1,5 @@
-﻿using Jal.HttpClient.Interface;
-using Jal.RestClient.Impl;
-using Jal.RestClient.Impl.Fluent;
-using Jal.RestClient.Interface.Fluent;
-using LightInject;
+﻿using LightInject;
+using System.Linq;
 
 namespace Jal.RestClient.LightInject.Installer
 {
@@ -10,7 +7,10 @@ namespace Jal.RestClient.LightInject.Installer
     {
         public void Compose(IServiceRegistry serviceRegistry)
         {
-            serviceRegistry.Register<IRestFluentHandler, RestFluentHandler>( new PerContainerLifetime());
+            if (serviceRegistry.AvailableServices.All(x => x.ServiceType != typeof(IRestFluentHandler)))
+            {
+                serviceRegistry.Register<IRestFluentHandler, RestFluentHandler>(new PerContainerLifetime());
+            } 
         }
     }
 }

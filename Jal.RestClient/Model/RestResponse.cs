@@ -1,7 +1,7 @@
 ﻿using System;
-using Jal.HttpClient.Model;
+using Jal.HttpClient;
 
-namespace Jal.RestClient.Model
+namespace Jal.RestClient
 {
     public class RestResponse : IDisposable
     {

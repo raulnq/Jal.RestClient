@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
-using Jal.HttpClient.Impl.Fluent;
-using Jal.HttpClient.Interface;
-using Jal.HttpClient.Model;
-using Jal.RestClient.Interface.Fluent;
-using Jal.RestClient.Model;
+using Jal.HttpClient;
 
-namespace Jal.RestClient.Impl.Fluent
+namespace Jal.RestClient
 {
     public class RestSenderDescriptor<T> : IRestWhenDescriptor<T>
     {
@@ -74,14 +70,14 @@ namespace Jal.RestClient.Impl.Fluent
             return this;
         }
 
-        public IRestSenderDescriptor<T> WithIdentity(HttpIdentity httpIdentity)
+        public IRestSenderDescriptor<T> WithTracing(HttpTracingContext context)
         {
-            if (httpIdentity == null)
+            if (context == null)
             {
-                throw new ArgumentNullException(nameof(httpIdentity));
+                throw new ArgumentNullException(nameof(context));
             }
 
-            _context.Request.Identity = httpIdentity;
+            _context.Request.Tracing = context;
 
             return this;
         }
