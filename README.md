@@ -81,7 +81,3 @@ var client = provider.GetRestClient();
 ## Middlewares
 
 Use the same middlewares used in [Jal.HttpClient](https://github.com/raulnq/Jal.HttpClient)
-
-```csharp
-
-```

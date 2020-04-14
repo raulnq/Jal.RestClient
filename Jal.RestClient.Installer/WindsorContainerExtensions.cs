@@ -1,4 +1,5 @@
 ﻿using Castle.Windsor;
+using Jal.HttpClient;
 using Jal.HttpClient.Installer;
 using System;
 
@@ -6,7 +7,7 @@ namespace Jal.RestClient.Installer
 {
     public static class WindsorContainerExtensions
     {
-        public static void AddRestClient(this IWindsorContainer container, Action<IWindsorContainer> action = null)
+        public static void AddRestClient(this IWindsorContainer container, Action<IHttpClientBuilder> action = null)
         {
             container.AddHttpClient(action);
 

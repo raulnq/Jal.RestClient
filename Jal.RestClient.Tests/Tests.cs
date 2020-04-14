@@ -5,7 +5,6 @@ using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Common.Logging;
 using Jal.HttpClient.Common.Logging;
-using Jal.HttpClient.Common.Logging.Installer;
 using Jal.HttpClient;
 using Jal.RestClient.Installer;
 using Jal.RestClient.Json;
@@ -28,7 +27,7 @@ namespace Jal.RestClient.Tests
 
             container.Register(Component.For<ILog>().Instance(log));
 
-            container.AddRestClient(c=> { c.AddCommonLoggingForHttpClient(); });
+            container.AddRestClient(c=> { c.Add<CommonLoggingMiddelware>(); });
 
             _restFluentHandler = container.GetRestClient();
         }
